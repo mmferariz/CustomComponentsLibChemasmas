@@ -13,8 +13,50 @@ import com.chemasmas.customcomponentslibrary.R
 /**
  * TODO: document your custom view class.
  */
-class ValueSlider : View {
+class ValueSlider(ctx:Context, attrs: AttributeSet, defStyle: Int) : View(ctx,attrs, defStyle) {
 
+
+
+
+    private fun init(attrs: AttributeSet?, defStyle: Int) {
+        // Load attributes
+        val a = context.obtainStyledAttributes(
+            attrs, R.styleable.ValueSlider, defStyle, 0
+        )
+
+        /*
+        _exampleString = a.getString(
+            R.styleable.ValueSlider_exampleString
+        )
+        _exampleColor = a.getColor(
+            R.styleable.ValueSlider_exampleColor,
+            exampleColor
+        )
+        // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
+        // values that should fall on pixel boundaries.
+        _exampleDimension = a.getDimension(
+            R.styleable.ValueSlider_exampleDimension,
+            exampleDimension
+        )
+
+        if (a.hasValue(R.styleable.ValueSlider_exampleDrawable)) {
+            exampleDrawable = a.getDrawable(
+                R.styleable.ValueSlider_exampleDrawable
+            )
+            exampleDrawable?.callback = this
+        }
+        */
+        a.recycle()
+
+        // Set up a default TextPaint object
+
+
+        // Update TextPaint and text measurements from attributes
+        //invalidateTextPaintAndMeasurements()
+    }
+
+
+    /*
     private var _exampleString: String? = null // TODO: use a default from R.string...
     private var _exampleColor: Int = Color.RED // TODO: use a default from R.color...
     private var _exampleDimension: Float = 0f // TODO: use a default from R.dimen...
@@ -150,4 +192,5 @@ class ValueSlider : View {
             it.draw(canvas)
         }
     }
+    */
 }
