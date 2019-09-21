@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="CalendarDay">
+        <attr name="dia_string" format="string"/>
+        <attr name="mes_string" format="string"/>
+        <attr name="fondo_card" format="color"/>
+        <attr name="card_padding" format="dimension" />
+    </declare-styleable>
+</resources>

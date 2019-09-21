@@ -13,9 +13,19 @@ import com.chemasmas.customcomponentslibrary.R
 /**
  * TODO: document your custom view class.
  */
-class ValueSlider(ctx:Context, attrs: AttributeSet, defStyle: Int) : View(ctx,attrs, defStyle) {
+class ValueSlider: View {
 
+    constructor(context: Context) : super(context) {
+        init(null, 0)
+    }
 
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        init(attrs, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
+        init(attrs, defStyle)
+    }
 
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
@@ -25,7 +35,8 @@ class ValueSlider(ctx:Context, attrs: AttributeSet, defStyle: Int) : View(ctx,at
         )
 
         /*
-        _exampleString = a.getString(
+
+         = a.getString(
             R.styleable.ValueSlider_exampleString
         )
         _exampleColor = a.getColor(
