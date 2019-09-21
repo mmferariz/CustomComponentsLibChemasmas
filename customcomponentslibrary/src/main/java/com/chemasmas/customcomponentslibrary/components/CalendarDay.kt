@@ -80,7 +80,7 @@ class CalendarDay: LinearLayout  {
         this.background = mDrawable
 
         /* Paddings */
-        val paddingDp = a.getDimensionPixelSize( R.styleable.CalendarDay_card_padding,10 )
+        //val paddingDp = a.getDimensionPixelSize( R.styleable.CalendarDay_card_padding,10 )
 
         /*Alineacion del TExto*/
         fecha.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
@@ -92,9 +92,9 @@ class CalendarDay: LinearLayout  {
 
     private fun spannealbeInfo() {
         val spanneable = SpannableString( _dia + _mes )
-        spanneable.setSpan( RelativeSizeSpan(1.5f),0,_dia!!.length , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spanneable.setSpan( RelativeSizeSpan(1.5f),0,_dia.length , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         spanneable.setSpan( StyleSpan(Typeface.BOLD),0,_dia.length , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spanneable.setSpan( RelativeSizeSpan(0.8f),_dia.length,_dia!!.length + _mes!!.length , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spanneable.setSpan( RelativeSizeSpan(0.8f),_dia.length,_dia.length + _mes.length , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         fecha.text = spanneable
     }
 }
