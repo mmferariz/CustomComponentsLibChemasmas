@@ -1,121 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#A31616"
-        android:orientation="vertical"
-        tools:context=".MainActivity" >
+        android:background="#DC0B0B"
+        tools:context=".MainActivity">
 
-    <ScrollView
+    <com.chemasmas.customcomponentslibrary.components.CurvedBottomNavigationView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/botton_menu" />
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
-            <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                    android:id="@+id/calendarDay"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                    android:id="@+id/calendarDay2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                    android:id="@+id/calendarDay3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:dia_string="23"
-                    app:mes_string="Abril" />
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                        android:id="@+id/calendarDay4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="com.chemasmas.customcomponentslibrary.components.CalendarDay" />
-
-                <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                        android:id="@+id/calendarDay5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="com.chemasmas.customcomponentslibrary.components.CalendarDay" />
-
-                <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                        android:id="@+id/calendarDay6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="com.chemasmas.customcomponentslibrary.components.CalendarDay" />
-            </LinearLayout>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                        android:id="@+id/calendarDay7"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="com.chemasmas.customcomponentslibrary.components.CalendarDay" />
-
-                <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                        android:id="@+id/calendarDay8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="com.chemasmas.customcomponentslibrary.components.CalendarDay" />
-            </LinearLayout>
-
-            <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                        android:id="@+id/calendarDay9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="com.chemasmas.customcomponentslibrary.components.CalendarDay"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                        android:id="@+id/calendarDay10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="16dp"
-                        android:text="com.chemasmas.customcomponentslibrary.components.CalendarDay"
-                        app:layout_constraintBottom_toBottomOf="@+id/calendarDay11"
-                        app:layout_constraintStart_toEndOf="@+id/calendarDay9"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                <com.chemasmas.customcomponentslibrary.components.CalendarDay
-                        android:id="@+id/calendarDay11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="48dp"
-                        android:layout_marginBottom="48dp"
-                        android:text="com.chemasmas.customcomponentslibrary.components.CalendarDay"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

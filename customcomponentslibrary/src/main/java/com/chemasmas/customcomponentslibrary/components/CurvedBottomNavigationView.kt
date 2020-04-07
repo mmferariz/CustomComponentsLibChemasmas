@@ -1,0 +1,160 @@
+package com.chemasmas.customcomponentslibrary.components
+
+import android.content.Context
+import android.graphics.*
+import android.util.AttributeSet
+import com.chemasmas.customcomponentslibrary.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
+class CurvedBottomNavigationView :
+    BottomNavigationView {
+
+    companion object{
+        const val CURVE_CIRCLE_RADIUS = 256 / 4
+    }
+
+
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs){
+        //attrs.getAttribute
+    }
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
+
+    private var mPath: Path = Path()
+    private val mFirstCurveStartPoint: Point = Point()
+    private val mFirstCurveEndPoint: Point = Point()
+    private val mFirstCurveControlPoint1: Point = Point()
+    private val mFirstCurveControlPoint2: Point = Point()
+
+    private var mSecondCurveStartPoint: Point = Point()
+    private var mSecondCurveEndPoint: Point = Point()
+    private var mSecondCurveControlPoint1: Point = Point()
+    private var mSecondCurveControlPoint2: Point = Point()
+
+
+    private var mNavigationBarHeight: Int = 0
+    private var mNavigationBarWidth: Int = 0
+
+    //rivate var mPath
+    private var mPaint:Paint = Paint()
+
+    init {
+/*val a = context.obtainStyledAttributes(
+            attrs, R.styleable.ValueSlider, defStyle, 0
+        )*/
+
+        mPaint.style = Paint.Style.FILL_AND_STROKE
+        mPaint.color = Color.WHITE
+        setBackgroundColor(Color.TRANSPARENT)
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        mNavigationBarWidth = width
+        mNavigationBarHeight = height
+
+        mFirstCurveStartPoint.set(
+            //( mNavigationBarWidth/2 ) - (CURVE_CIRCLE_RADIUS * 2 ) - (CURVE_CIRCLE_RADIUS/3),
+            ( mNavigationBarWidth/2 ) - (CURVE_CIRCLE_RADIUS * 1.6).toInt() ,
+            0
+        )
+
+        mFirstCurveEndPoint.set(
+            mNavigationBarWidth / 2,
+            //CURVE_CIRCLE_RADIUS + (CURVE_CIRCLE_RADIUS / 4)
+            (CURVE_CIRCLE_RADIUS * 1.6).toInt()
+        )
+
+        mSecondCurveStartPoint  = mFirstCurveEndPoint
+        mSecondCurveEndPoint.set(
+            //(mNavigationBarWidth / 2) + (CURVE_CIRCLE_RADIUS * 2) + (CURVE_CIRCLE_RADIUS / 3)
+            ( mNavigationBarWidth/2 ) + (CURVE_CIRCLE_RADIUS * 1.6).toInt() ,
+             0
+        )
+
+
+        mFirstCurveControlPoint1.set(
+            //mFirstCurveStartPoint.x + CURVE_CIRCLE_RADIUS + (CURVE_CIRCLE_RADIUS / 4),
+            //mFirstCurveStartPoint.x + CURVE_CIRCLE_RADIUS ,
+            mFirstCurveStartPoint.x,
+            //mFirstCurveStartPoint.y
+            mFirstCurveStartPoint.y + (CURVE_CIRCLE_RADIUS * .6).toInt()
+        )
+
+        mFirstCurveControlPoint2.set(
+            //mFirstCurveEndPoint.x - (CURVE_CIRCLE_RADIUS * 2) + CURVE_CIRCLE_RADIUS,
+            mFirstCurveEndPoint.x - ( (mFirstCurveEndPoint.x - mFirstCurveStartPoint.x) * .6 ).toInt(),
+            mFirstCurveEndPoint.y
+        )
+
+        mSecondCurveControlPoint1.set(
+            //mSecondCurveStartPoint.x + (CURVE_CIRCLE_RADIUS * 2) - CURVE_CIRCLE_RADIUS,
+            mSecondCurveStartPoint.x + ( (mSecondCurveEndPoint.x - mSecondCurveStartPoint.x) * .6 ).toInt(),
+            mSecondCurveStartPoint.y
+        )
+        mSecondCurveControlPoint2.set(
+            //mSecondCurveEndPoint.x - (CURVE_CIRCLE_RADIUS + (CURVE_CIRCLE_RADIUS / 4)),
+            //mSecondCurveEndPoint.x - CURVE_CIRCLE_RADIUS ,
+            mSecondCurveEndPoint.x ,
+            //mSecondCurveEndPoint.y
+            //mSecondCurveEndPoint.y + CURVE_CIRCLE_RADIUS
+            mSecondCurveEndPoint.y + (CURVE_CIRCLE_RADIUS * .6 ).toInt()
+        )
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        mPath.reset();
+        mPath.moveTo(0f, 0f);
+        mPath.lineTo(
+            mFirstCurveStartPoint.x.toFloat(),
+            mFirstCurveStartPoint.y.toFloat()
+        )
+
+
+        mPath.cubicTo(
+            mFirstCurveControlPoint1.x.toFloat(),
+            mFirstCurveControlPoint1.y.toFloat(),
+            mFirstCurveControlPoint2.x.toFloat(),
+            mFirstCurveControlPoint2.y.toFloat(),
+            mFirstCurveEndPoint.x.toFloat(),
+            mFirstCurveEndPoint.y.toFloat()
+        )
+
+        mPath.cubicTo(
+            mSecondCurveControlPoint1.x.toFloat(),
+            mSecondCurveControlPoint1.y.toFloat(),
+            mSecondCurveControlPoint2.x.toFloat(),
+            mSecondCurveControlPoint2.y.toFloat(),
+            mSecondCurveEndPoint.x.toFloat(),
+            mSecondCurveEndPoint.y.toFloat()
+        )
+
+
+
+
+        mPath.lineTo(
+            mNavigationBarWidth.toFloat(),
+            0f
+        )
+        mPath.lineTo(
+            mNavigationBarWidth.toFloat(),
+            mNavigationBarHeight.toFloat()
+        )
+        mPath.lineTo(
+            0f,
+            mNavigationBarHeight.toFloat()
+        )
+        mPath.close();
+
+        canvas?.drawPath(mPath, mPaint);
+    }
+}
