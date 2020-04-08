@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.github.dcendents.android-maven'
@@ -6,12 +7,12 @@ group='com.github.chemasmas'
 
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
 
     defaultConfig {
         minSdkVersion 24
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
@@ -50,4 +51,22 @@ dependencies {
     //implementation 'com.jakewharton.rxbinding3:rxbinding-viewpager:3.1.0'
     //implementation 'com.jakewharton.rxbinding3:rxbinding-viewpager2:3.1.0'
     //implementation 'com.jakewharton.rxbinding3:rxbinding-material:3.1.0'
+
+
+}
+
+publish {
+
+    def groupProjectID = 'com.chemasmas.customcomponents'
+    def artifactProjectID = 'customcomponents'
+    def publishVersionID = '0.0.3'
+
+    userOrg = 'chemasmas'
+    repoName = 'CustomComponents'
+    groupId = groupProjectID
+    artifactId = artifactProjectID
+    publishVersion = publishVersionID
+    desc = 'Test'
+    website = 'https://github.com/Chemasmas/CustomComponentsLibChemasmas'
+
 }

@@ -57,6 +57,7 @@ class ValueSlider: View {
             exampleDrawable?.callback = this
         }
         */
+
         a.recycle()
 
         // Set up a default TextPaint object

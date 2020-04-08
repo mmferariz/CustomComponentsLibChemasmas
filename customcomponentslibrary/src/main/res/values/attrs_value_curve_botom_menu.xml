@@ -1,5 +1,6 @@
 <resources>
     <declare-styleable name="CurvedBottomNavigationView">
         <attr name="menu" format="reference" />
+        <attr name="radioSize" format="dimension"/>
     </declare-styleable>
 </resources>

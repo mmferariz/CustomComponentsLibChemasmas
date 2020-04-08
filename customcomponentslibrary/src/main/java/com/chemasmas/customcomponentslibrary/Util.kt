@@ -1,5 +1,6 @@
 package com.chemasmas.customcomponentslibrary
 
+import android.content.res.Resources
 import android.util.Log
 import android.widget.Toast
 
@@ -15,4 +16,13 @@ class Util{
             return (dp * density).toInt()
         }
     }
+}
+
+
+fun Int.toDPF(): Float {
+    return this * Resources.getSystem().displayMetrics.density
+}
+
+fun Int.toDP():Int {
+    return this.toDPF().toInt()
 }
