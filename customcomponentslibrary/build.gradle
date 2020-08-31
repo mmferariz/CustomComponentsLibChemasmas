@@ -1,9 +1,15 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.chemasmas'
+
+def groupProjectID = 'com.chemasmas.customcomponents'
+def artifactProjectID = 'customcomponents'
+def publishVersionID = '0.0.5'
 
 
 android {
@@ -32,12 +38,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.0"
+
 
     /*Material*/
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.0'
 
     //RXKotlin UI
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
@@ -52,21 +59,50 @@ dependencies {
     //implementation 'com.jakewharton.rxbinding3:rxbinding-viewpager2:3.1.0'
     //implementation 'com.jakewharton.rxbinding3:rxbinding-material:3.1.0'
 
-
+    implementation 'androidx.appcompat:appcompat:1.2.0'
 }
 
-publish {
 
-    def groupProjectID = 'com.chemasmas.customcomponents'
-    def artifactProjectID = 'customcomponents'
-    def publishVersionID = '0.0.3'
 
-    userOrg = 'chemasmas'
-    repoName = 'CustomComponents'
-    groupId = groupProjectID
-    artifactId = artifactProjectID
-    publishVersion = publishVersionID
-    desc = 'Test'
-    website = 'https://github.com/Chemasmas/CustomComponentsLibChemasmas'
+bintray {
+    user = 'chemasmas'
+    key = '1d9d6450f7a47afeff0b4c47dacddfc9de496d00'
+    publications = ['MyPublication']
+    pkg {
+        repo = 'generic'
+        name = 'CustomComponents'
+        userOrg = 'chemasmas'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/Chemasmas/CustomComponentsLibChemasmas'
 
+        version {
+            name = publishVersionID
+            desc = 'Componentes Reutilizables by Chema'
+            released  = new Date()
+            vcsTag = publishVersionID
+            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+        }
+    }
+}
+
+publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            // Define this explicitly if using implementation or api configurations
+            pom.withXml {
+                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
+
+                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
 }

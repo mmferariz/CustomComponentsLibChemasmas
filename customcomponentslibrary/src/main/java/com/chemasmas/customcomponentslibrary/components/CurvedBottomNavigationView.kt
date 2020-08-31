@@ -22,13 +22,13 @@ class CurvedBottomNavigationView :
 
     private fun init(attrs: AttributeSet?, defStyle: Int?) {
 
-        var ta:TypedArray = if(defStyle== null){
+        val ta:TypedArray = if(defStyle== null){
             context.obtainStyledAttributes(
                 attrs,R.styleable.CurvedBottomNavigationView
             )
         }else{
             context.obtainStyledAttributes(
-                attrs, R.styleable.CurvedBottomNavigationView, defStyle!!, 0
+                attrs, R.styleable.CurvedBottomNavigationView, defStyle, 0
             )
         }
 
@@ -76,6 +76,7 @@ class CurvedBottomNavigationView :
         //mPaint.style = Paint.Style.FILL_AND_STROKE
         //mPaint.color = Color.WHITE
         setBackgroundColor(Color.TRANSPARENT)
+
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
