@@ -10,7 +10,7 @@ group='com.github.chemasmas'
 def groupProjectID = 'com.chemasmas.customcomponents'
 def artifactProjectID = 'customcomponents'
 def publishVersionID = '0.0.5'
-
+def repoProject = 'CustomComponents'
 
 android {
     compileSdkVersion 29
@@ -69,10 +69,11 @@ bintray {
     key = '1d9d6450f7a47afeff0b4c47dacddfc9de496d00'
     publications = ['MyPublication']
     pkg {
-        repo = 'generic'
-        name = 'CustomComponents'
+        repo = repoProject
+        name = artifactProjectID
         userOrg = 'chemasmas'
         licenses = ['Apache-2.0']
+        publicDownloadNumbers = true
         vcsUrl = 'https://github.com/Chemasmas/CustomComponentsLibChemasmas'
 
         version {
@@ -88,6 +89,9 @@ bintray {
 publishing {
     publications {
         MyPublication(MavenPublication) {
+            groupId groupProjectID
+            artifactId artifactProjectID
+            version publishVersionID
             // Define this explicitly if using implementation or api configurations
             pom.withXml {
                 def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')

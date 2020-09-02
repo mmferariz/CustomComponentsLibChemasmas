@@ -1,7 +1,9 @@
 package com.chemasmas.customcomponentslibrary
 
+import android.content.Context
 import android.content.res.Resources
 import android.util.Log
+import android.util.TypedValue
 import android.widget.Toast
 
 class Util{
@@ -16,6 +18,10 @@ class Util{
             return (dp * density).toInt()
         }
     }
+}
+
+fun Context.DIPtoPX(value:Float): Int {
+return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX,value, resources.displayMetrics ).toInt()
 }
 
 

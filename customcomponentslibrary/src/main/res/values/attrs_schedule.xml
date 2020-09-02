@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomTimeSchedule">
+        <!--attr name="artistText" format="string" /-->
+
+        <attr name="iniTime" format="integer"  />
+        <attr name="finTime" format="integer" />
+        <attr name="tickTime" format="integer" />
+        <attr name="headerHeight" format="dimension|reference" />
+        <attr name="cellHeight" format="dimension|reference" />
+        <attr name="cellWidth" format="dimension|reference" />
+    </declare-styleable>
+
+</resources>
