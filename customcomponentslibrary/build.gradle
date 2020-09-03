@@ -60,6 +60,8 @@ dependencies {
     //implementation 'com.jakewharton.rxbinding3:rxbinding-material:3.1.0'
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
+
+    implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
 }
 
 

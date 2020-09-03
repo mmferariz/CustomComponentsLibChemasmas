@@ -18,9 +18,12 @@ class MainActivity : AppCompatActivity() {
         (customC as CustomTimeSchedule<String> ).addTimeLines(
             arrayListOf<ColumnData<String>>(
                 ColumnData<String>(
-                    "Test2","Test"
+                    "Miyana","DAta"
                 ),ColumnData<String>(
-                    "Test3","Test"
+                    "Tonala","Test"
+                ),
+                ColumnData<String>(
+                    "Chema","Test"
                 )
             )
         )

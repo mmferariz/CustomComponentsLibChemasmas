@@ -4,10 +4,14 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.chemasmas.customcomponentslibrary.ColumnData
 import com.chemasmas.customcomponentslibrary.DIPtoPX
 import com.chemasmas.customcomponentslibrary.R
 import com.chemasmas.customcomponentslibrary.adapters.TimeScheduleLineAdapter
+import com.chemasmas.customcomponentslibrary.ui.DividerItemDecorationNoLast
 import kotlinx.android.synthetic.main.layout_schedule_range.view.*
 import kotlin.math.max
 import kotlin.math.min
@@ -26,6 +30,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         iniciar(context, attrs)
     }
 
+    private var dividerHeight: Float = 0f
     private var headerHeigth: Float = 0f
     private var iniNormal: Int = 0
     private var finNormal: Int = 0
@@ -41,8 +46,9 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         val inicio = typedArray.getInt(R.styleable.CustomTimeSchedule_iniTime,0)
         val fin = typedArray.getInt(R.styleable.CustomTimeSchedule_finTime,2400)
         val tick = typedArray.getInt(R.styleable.CustomTimeSchedule_tickTime,60)
-        headerHeigth= typedArray.getDimension(R.styleable.CustomTimeSchedule_headerHeight,24f)
-        cellHeigth= typedArray.getDimension(R.styleable.CustomTimeSchedule_cellHeight,32f)
+        headerHeigth = typedArray.getDimension(R.styleable.CustomTimeSchedule_headerHeight,24f)
+        cellHeigth = typedArray.getDimension(R.styleable.CustomTimeSchedule_cellHeight,32f)
+        dividerHeight = typedArray.getDimension(R.styleable.CustomTimeSchedule_dividerHeight,1f)
 
         val inicioFix = fixInicio(inicio,fin)
         val finFix = fixFin(inicio,fin)
@@ -51,6 +57,11 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         finNormal = normalTime(finFix,tick100)
 
         initTimeline()
+
+        items_schedule.addItemDecoration(
+            DividerItemDecorationNoLast(context, LinearLayoutManager.HORIZONTAL)
+        )
+
 
 
         typedArray.recycle()
@@ -75,7 +86,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         for ( x in iniNormal..finNormal step tick100){
             timeline.addView( TextView(context).apply {
                 text = centenasToHours(x)
-                height = context.DIPtoPX(cellHeigth) * 2
+                height = context.DIPtoPX(cellHeigth+dividerHeight) * 2
             } )
         }
 

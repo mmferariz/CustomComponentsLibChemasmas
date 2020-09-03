@@ -8,6 +8,7 @@
         <attr name="tickTime" format="integer" />
         <attr name="headerHeight" format="dimension|reference" />
         <attr name="cellHeight" format="dimension|reference" />
+        <attr name="dividerHeight" format="dimension|reference" />
         <attr name="cellWidth" format="dimension|reference" />
     </declare-styleable>
 

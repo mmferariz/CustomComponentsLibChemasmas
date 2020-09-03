@@ -21,6 +21,7 @@
             app:finTime="2000"
             app:headerHeight="32dp"
             app:iniTime="0"
+            app:dividerHeight="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
