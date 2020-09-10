@@ -1,23 +1,22 @@
 apply plugin: 'com.android.library'
 //apply plugin: 'com.novoda.bintray-release'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'maven-publish'
+//apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'maven-publish'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'java'
+apply plugin: 'maven'
 apply plugin: 'com.github.dcendents.android-maven'
+
 group='com.github.chemasmas'
 
-def groupProjectID = 'com.chemasmas.customcomponents'
-def artifactProjectID = 'customcomponents'
-def publishVersionID = '0.0.5'
-def repoProject = 'CustomComponents'
 
 android {
     compileSdkVersion 29
 
 
     defaultConfig {
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -45,7 +44,7 @@ dependencies {
 
 
     /*Material*/
-    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
     //RXKotlin UI
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
@@ -65,51 +64,4 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview-selection:1.0.0'
 }
 
-
-
-bintray {
-    user = 'chemasmas'
-    key = '1d9d6450f7a47afeff0b4c47dacddfc9de496d00'
-    publications = ['MyPublication']
-    pkg {
-        repo = repoProject
-        name = artifactProjectID
-        userOrg = 'chemasmas'
-        licenses = ['Apache-2.0']
-        publicDownloadNumbers = true
-        vcsUrl = 'https://github.com/Chemasmas/CustomComponentsLibChemasmas'
-
-        version {
-            name = publishVersionID
-            desc = 'Componentes Reutilizables by Chema'
-            released  = new Date()
-            vcsTag = publishVersionID
-            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
-        }
-    }
-}
-
-publishing {
-    publications {
-        MyPublication(MavenPublication) {
-            groupId groupProjectID
-            artifactId artifactProjectID
-            version publishVersionID
-            // Define this explicitly if using implementation or api configurations
-            pom.withXml {
-                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
-
-                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.implementation.allDependencies.each {
-                    // Ensure dependencies such as fileTree are not included.
-                    if (it.name != 'unspecified') {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
-                    }
-                }
-            }
-        }
-    }
-}
+//apply from: 'publish.gradle'

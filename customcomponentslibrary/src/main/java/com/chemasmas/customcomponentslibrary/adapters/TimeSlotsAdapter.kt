@@ -34,6 +34,7 @@ class TimeSlotsAdapter<T>(
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         val fondo: TextView = itemView.findViewById(R.id.fondo)
 
+        /*
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
             object : ItemDetailsLookup.ItemDetails<Long>() {
                 override fun getPosition(): Int = adapterPosition
@@ -50,6 +51,8 @@ class TimeSlotsAdapter<T>(
                 else -> UNSELECTED
             }*/
         }
+
+         */
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -79,9 +82,12 @@ class TimeSlotsAdapter<T>(
 
 
 
+        /*
         tracker?.let {
             holder.bind(item, it.isSelected(position.toLong()))
         }
+
+         */
     }
 
     private fun slotBloqueado() {
