@@ -2,11 +2,9 @@ package com.chemasmas.customcomponentslibrary.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.selection.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chemasmas.customcomponentslibrary.ColumnData
@@ -21,11 +19,12 @@ class TimeScheduleLineAdapter<T>(
     val iniNormal: Int,
     val finNormal: Int,
     val tick: Int,
-    val cellHeigth: Float
+    val cellHeigth: Float,
+    val lambda:SlotPicked<T>
 ) : RecyclerView.Adapter<TimeScheduleLineAdapter.ViewHolder>() {
 
 
-    private lateinit var tsAdapter: TimeSlotsAdapter
+    private lateinit var tsAdapter: TimeSlotsAdapter<T>
     private var context: Context? = null
     //var tracker: SelectionTracker<Long>? = null
     //private val timeSlots:ArrayList<Pair<Int,String?>> = arrayListOf()
@@ -52,14 +51,15 @@ class TimeScheduleLineAdapter<T>(
         with(holder){
             titulo.height = context?.DIPtoPX(headerHeigth)!!
             titulo.text = item.title
-            for ( x in iniNormal..(finNormal+tick) step (tick/2) ){
+            for ( x in iniNormal..(finNormal) step (tick/2) ){
                 val t = TimeSlot(x,centenasToHours(x)!!)
                 item.timeSlots.add(t)
             }
 
-            tsAdapter = TimeSlotsAdapter(item.timeSlots,cellHeigth)
+            tsAdapter = TimeSlotsAdapter(item.timeSlots,cellHeigth,lambda,item)
             rvTimeslots.adapter = tsAdapter
 
+            /*
             val tracker = SelectionTracker.Builder<Long>(
                 "seleccion",
                 rvTimeslots,
@@ -72,7 +72,9 @@ class TimeScheduleLineAdapter<T>(
             .build()
 
             tsAdapter.tracker = tracker
+             */
 
+            /*
             tracker?.addObserver(
                 object : SelectionTracker.SelectionObserver<Long>() {
                     override fun onSelectionChanged() {
@@ -81,7 +83,7 @@ class TimeScheduleLineAdapter<T>(
                     }
                 }
             )
-
+*/
             rvTimeslots.addItemDecoration(
                 DividerItemDecorationNoLast(context,LinearLayoutManager.VERTICAL)
             )
@@ -104,7 +106,7 @@ class TimeScheduleLineAdapter<T>(
 }
 
 
-
+/*
 class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
     ItemDetailsLookup<Long>() {
     override fun getItemDetails(event: MotionEvent): ItemDetails<Long>? {
@@ -128,4 +130,4 @@ class MyItemKeyProvider(private val recyclerView: RecyclerView) :
         val viewHolder = recyclerView.findViewHolderForItemId(key)
         return viewHolder?.layoutPosition ?: RecyclerView.NO_POSITION
     }
-}
+}*/

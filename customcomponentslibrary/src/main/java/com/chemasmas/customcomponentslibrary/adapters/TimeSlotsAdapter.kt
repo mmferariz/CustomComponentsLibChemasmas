@@ -2,25 +2,26 @@ package com.chemasmas.customcomponentslibrary.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
+import com.chemasmas.customcomponentslibrary.ColumnData
 import com.chemasmas.customcomponentslibrary.DIPtoPX
 import com.chemasmas.customcomponentslibrary.R
 import com.chemasmas.customcomponentslibrary.TimeSlot
-import com.chemasmas.customcomponentslibrary.TimeSlot.Companion.LOCKED
 import com.chemasmas.customcomponentslibrary.TimeSlot.Companion.SELECTED
 import com.chemasmas.customcomponentslibrary.TimeSlot.Companion.UNSELECTED
+import com.jakewharton.rxbinding3.view.clicks
 
 
-class TimeSlotsAdapter(
+class TimeSlotsAdapter<T>(
     val timeSlots: ArrayList<TimeSlot>,
     val cellHeigth: Float,
+    val lambda: SlotPicked<T>,
+    val line: ColumnData<T>
 ) : RecyclerView.Adapter<TimeSlotsAdapter.ViewHolder>() {
 
     init {
@@ -70,8 +71,11 @@ class TimeSlotsAdapter(
             //fondo.text = timeSlots[position].tag
             fondo.height = context!!.DIPtoPX(cellHeigth)
 
-
+            fondo.clicks().subscribe {
+                lambda.selectSlot(item,line)
+            }
         }
+
 
 
 
@@ -108,4 +112,9 @@ class TimeSlotsAdapter(
     }
 
     override fun getItemId(position: Int): Long = position.toLong()
+}
+
+
+fun interface SlotPicked<T>{
+    fun selectSlot(item: TimeSlot, line: ColumnData<T>)
 }

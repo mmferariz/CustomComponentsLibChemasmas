@@ -20,7 +20,9 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
             android:orientation="vertical"
+            android:overScrollMode="ifContentScrolls"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="3"
             tools:listitem="@layout/item_timeslot" />
 
 </LinearLayout>

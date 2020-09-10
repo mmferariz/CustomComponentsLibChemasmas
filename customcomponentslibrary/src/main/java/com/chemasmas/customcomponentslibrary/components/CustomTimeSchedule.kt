@@ -5,11 +5,11 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chemasmas.customcomponentslibrary.ColumnData
 import com.chemasmas.customcomponentslibrary.DIPtoPX
 import com.chemasmas.customcomponentslibrary.R
+import com.chemasmas.customcomponentslibrary.adapters.SlotPicked
 import com.chemasmas.customcomponentslibrary.adapters.TimeScheduleLineAdapter
 import com.chemasmas.customcomponentslibrary.ui.DividerItemDecorationNoLast
 import kotlinx.android.synthetic.main.layout_schedule_range.view.*
@@ -23,7 +23,8 @@ import kotlin.math.min
  *
  */
 class CustomTimeSchedule<T>  @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout( context, attrs, defStyleAttr) {
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    LinearLayout( context, attrs, defStyleAttr) {
 
     init {
         inflate(context, R.layout.layout_schedule_range,this)
@@ -67,13 +68,14 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         typedArray.recycle()
     }
 
-    fun addTimeLines(items:ArrayList<ColumnData<T>>){
-        initTimeItem(items)
+
+    fun addTimeLines(items:ArrayList<ColumnData<T>>,lambda:SlotPicked<T>){
+        initTimeItem(items,lambda)
     }
 
-    private fun initTimeItem(items: ArrayList<ColumnData<T>>) {
+    private fun initTimeItem(items: ArrayList<ColumnData<T>>,lambda:SlotPicked<T>) {
         //TODO get datos del arreglo
-        items_schedule.adapter = TimeScheduleLineAdapter(items,headerHeigth,iniNormal,finNormal,tick100,cellHeigth)
+        items_schedule.adapter = TimeScheduleLineAdapter(items,headerHeigth,iniNormal,finNormal,tick100,cellHeigth,lambda)
     }
 
     private fun initTimeline(
@@ -87,6 +89,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
             timeline.addView( TextView(context).apply {
                 text = centenasToHours(x)
                 height = context.DIPtoPX(cellHeigth+dividerHeight) * 2
+                background = ContextCompat.getDrawable(context,R.drawable.time_tv_divider)
             } )
         }
 

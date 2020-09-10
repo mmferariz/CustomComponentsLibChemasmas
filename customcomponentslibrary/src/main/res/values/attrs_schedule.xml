@@ -12,4 +12,17 @@
         <attr name="cellWidth" format="dimension|reference" />
     </declare-styleable>
 
+
+    <declare-styleable name="CustomTimeGCSchedule">
+        <!--attr name="artistText" format="string" /-->
+
+        <attr name="iniTime" />
+        <attr name="finTime" />
+        <attr name="tickTime" />
+        <attr name="headerHeight" />
+        <attr name="cellHeight" />
+        <attr name="dividerHeight" />
+        <attr name="cellWidth" />
+    </declare-styleable>
+
 </resources>
