@@ -1,0 +1,110 @@
+/*
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+//def groupProjectID = 'com.chemasmas.customcomponents'
+//def artifactProjectID = 'customcomponents'
+//def publishVersionID = '0.0.6'
+
+def repoProject = 'CustomComponents'
+version '0.0.8'
+group 'com.chemasmas.customcomponents'
+def artifactProjectID = 'customcomponents'
+
+
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                //artifact("build/outputs/aar/app-release.aar")
+                groupId
+                artifactId artifactProjectID
+                version this.version
+
+                pom.withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+
+                    // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+                    configurations.implementation.allDependencies.each {
+                        // Ensure dependencies such as fileTree are not included in the pom.
+                        if (it.name != 'unspecified') {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', it.group)
+                            dependencyNode.appendNode('artifactId', it.name)
+                            dependencyNode.appendNode('version', it.version)
+                        }
+                    }
+                }
+            }
+            // Creates a Maven publication called “debug”.
+            /*
+            debug(MavenPublication) {
+                // Applies the component for the debug build variant.
+                from components.debug
+
+                groupId = 'com.example.MyLibrary'
+                artifactId = 'final-debug'
+                version = '1.0'
+            }
+
+
+        }
+    }
+
+
+
+/*
+publishing {
+    publications {
+        Production(MavenPublication) {
+            //artifact("$buildDir/outputs/aar/app-release.aar")
+            artifact("build/outputs/aar/app-release.aar")
+            groupId
+            artifactId artifactProjectID
+            version this.version
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included in the pom.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+}
+ 
+
+bintray {
+    user = 'chemasmas'
+    key = '1d9d6450f7a47afeff0b4c47dacddfc9de496d00'
+    publications = ['release']
+    configurations = ['archives']
+    override = true
+    pkg {
+        repo = repoProject
+        name = artifactProjectID
+        //description = "An example of using the bintray plugin with gradle plugin 3.0.0"
+        publish = true
+        publicDownloadNumbers = true
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/Chemasmas/CustomComponentsLibChemasmas.git'
+        dryRun = true
+        version {
+            name = this.version
+            desc = "Example ${this.version}"
+            released = new Date()
+            vcsTag = this.version
+            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+        }
+    }
+}
+*/

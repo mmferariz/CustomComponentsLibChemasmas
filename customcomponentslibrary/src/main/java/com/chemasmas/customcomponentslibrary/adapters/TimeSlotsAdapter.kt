@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,7 @@ import com.chemasmas.customcomponentslibrary.ColumnData
 import com.chemasmas.customcomponentslibrary.DIPtoPX
 import com.chemasmas.customcomponentslibrary.R
 import com.chemasmas.customcomponentslibrary.TimeSlot
+import com.chemasmas.customcomponentslibrary.TimeSlot.Companion.LOCKED
 import com.chemasmas.customcomponentslibrary.TimeSlot.Companion.SELECTED
 import com.chemasmas.customcomponentslibrary.TimeSlot.Companion.UNSELECTED
 import com.jakewharton.rxbinding3.view.clicks
@@ -21,6 +23,7 @@ class TimeSlotsAdapter<T>(
     val timeSlots: ArrayList<TimeSlot>,
     val cellHeigth: Float,
     val lambda: SlotPicked<T>,
+    val lockedLambda:SlotPicked<T>,
     val line: ColumnData<T>
 ) : RecyclerView.Adapter<TimeSlotsAdapter.ViewHolder>() {
 
@@ -74,8 +77,29 @@ class TimeSlotsAdapter<T>(
             //fondo.text = timeSlots[position].tag
             fondo.height = context!!.DIPtoPX(cellHeigth)
 
+
+            when( item.status){
+                UNSELECTED -> {}
+                SELECTED -> {}
+                LOCKED -> fondo.isEnabled = false
+                else -> UNSELECTED
+            }
+            /*
+            when(item.status){
+                LOCKED -> slotBloqueado()
+                //Talves se cambien
+                SELECTED -> deseleccionarSlot(item)
+                UNSELECTED -> seleccionarSlot(item)
+            }
+             */
+
             fondo.clicks().subscribe {
-                lambda.selectSlot(item,line)
+                if(item.status != LOCKED){
+                    lambda.selectSlot(item,line)
+                }else{
+                    lockedLambda.selectSlot(item, line)
+                }
+
             }
         }
 

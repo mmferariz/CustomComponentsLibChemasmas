@@ -22,12 +22,30 @@ class MainActivity : AppCompatActivity() {
         (customC as CustomTimeSchedule<String>).addTimeLines(
             arrayListOf<ColumnData<String>>(
                 ColumnData<String>(
-                    "Miyana","DAta"
+                    "Miyana","DAta",
+                    arrayListOf(
+                        //Restricciones
+                        TimeSlot(800,"",TimeSlot.LOCKED),
+                        TimeSlot(850,"",TimeSlot.LOCKED),
+                        TimeSlot(900,"",TimeSlot.LOCKED)
+                    )
                 ),ColumnData<String>(
                     "Tonala","Test"
+                    ,arrayListOf(
+                        //Restricciones
+                        TimeSlot(1200,"",TimeSlot.LOCKED),
+                        TimeSlot(1250,"",TimeSlot.LOCKED),
+                        TimeSlot(1500,"",TimeSlot.LOCKED)
+                    )
                 ),
                 ColumnData<String>(
                     "Chema","Test"
+                    ,arrayListOf(
+                        //Restricciones
+                        TimeSlot(1900,"",TimeSlot.LOCKED),
+                        TimeSlot(1950,"",TimeSlot.LOCKED),
+                        TimeSlot(2000,"",TimeSlot.LOCKED)
+                    )
                 ),
                 ColumnData<String>(
                     "Chema","Test"
@@ -37,6 +55,13 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Lambda",item.tag)
                 Log.d("Lambda",line.data.toString())
                 Log.d("Lambda",line.title)
+                Toast.makeText(this,"seleccionado",Toast.LENGTH_SHORT).show()
+            },
+            SlotPicked{ item, line ->
+                Log.d("Lambda",item.tag)
+                Log.d("Lambda",line.data.toString())
+                Log.d("Lambda",line.title)
+                Toast.makeText(this,"Esta Bloqueado",Toast.LENGTH_SHORT).show()
             })
     }
 }

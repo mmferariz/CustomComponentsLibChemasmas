@@ -69,13 +69,17 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
     }
 
 
-    fun addTimeLines(items:ArrayList<ColumnData<T>>,lambda:SlotPicked<T>){
-        initTimeItem(items,lambda)
+    fun addTimeLines(items:ArrayList<ColumnData<T>>,lambda:SlotPicked<T>,lockedLambda:SlotPicked<T>){
+        initTimeItem(items,lambda,lockedLambda)
     }
 
-    private fun initTimeItem(items: ArrayList<ColumnData<T>>,lambda:SlotPicked<T>) {
+    private fun initTimeItem(
+        items: ArrayList<ColumnData<T>>,
+        lambda: SlotPicked<T>,
+        lockedLambda: SlotPicked<T>
+    ) {
         //TODO get datos del arreglo
-        items_schedule.adapter = TimeScheduleLineAdapter(items,headerHeigth,iniNormal,finNormal,tick100,cellHeigth,lambda)
+        items_schedule.adapter = TimeScheduleLineAdapter(items,headerHeigth,iniNormal,finNormal,tick100,cellHeigth,lambda,lockedLambda)
     }
 
     private fun initTimeline(

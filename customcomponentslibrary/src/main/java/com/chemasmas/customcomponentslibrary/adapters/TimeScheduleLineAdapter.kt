@@ -20,7 +20,9 @@ class TimeScheduleLineAdapter<T>(
     val finNormal: Int,
     val tick: Int,
     val cellHeigth: Float,
-    val lambda:SlotPicked<T>
+    val lambda:SlotPicked<T>,
+    val lockedLambda:SlotPicked<T>
+
 ) : RecyclerView.Adapter<TimeScheduleLineAdapter.ViewHolder>() {
 
 
@@ -51,12 +53,16 @@ class TimeScheduleLineAdapter<T>(
         with(holder){
             titulo.height = context?.DIPtoPX(headerHeigth)!!
             titulo.text = item.title
-            for ( x in iniNormal..(finNormal) step (tick/2) ){
+            for ( x in iniNormal..(finNormal + tick/2) step (tick/2) ){
                 val t = TimeSlot(x,centenasToHours(x)!!)
-                item.timeSlots.add(t)
-            }
+                if( !item.timeSlots.contains(t) ){
 
-            tsAdapter = TimeSlotsAdapter(item.timeSlots,cellHeigth,lambda,item)
+                    item.timeSlots.add(t)
+                }
+            }
+            item.timeSlots.sortBy { slot -> slot.x }
+
+            tsAdapter = TimeSlotsAdapter(item.timeSlots,cellHeigth,lambda,lockedLambda,item)
             rvTimeslots.adapter = tsAdapter
 
             /*
