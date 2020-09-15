@@ -79,7 +79,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         lockedLambda: SlotPicked<T>
     ) {
         //TODO get datos del arreglo
-        items_schedule.adapter = TimeScheduleLineAdapter(items,headerHeigth,iniNormal,finNormal,tick100,cellHeigth,lambda,lockedLambda)
+        items_schedule.adapter = TimeScheduleLineAdapter(items,headerHeigth,iniNormal,finNormal,tick100,cellHeigth,dividerHeight,lambda,lockedLambda)
     }
 
     private fun initTimeline(

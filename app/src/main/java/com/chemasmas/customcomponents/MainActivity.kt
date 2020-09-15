@@ -27,6 +27,75 @@ class MainActivity : AppCompatActivity() {
                         //Restricciones
                         TimeSlot(800,"",TimeSlot.LOCKED),
                         TimeSlot(850,"",TimeSlot.LOCKED),
+                        TimeSlot(900,"",TimeSlot.LOCKED),
+                        TimeSlot(950,"",TimeSlot.LOCKED),
+                        TimeSlot(2000,"",TimeSlot.LOCKED),
+                        TimeSlot(2050,"",TimeSlot.LOCKED),
+                        //Ocupados
+                        TimeSlot(1000,"Evento Demo",TimeSlot.SELECTED),
+                        TimeSlot(1050,"Evento Demo",TimeSlot.SELECTED),
+                        TimeSlot(1100,"Evento Demo",TimeSlot.SELECTED),
+                        TimeSlot(1150,"Evento Demo",TimeSlot.SELECTED),
+                        TimeSlot(1200,"Evento Demo",TimeSlot.SELECTED)
+                    )
+                ),ColumnData<String>(
+                    "Tonala","Test"
+                    ,arrayListOf(
+                        //Restricciones
+                        TimeSlot(1200,"",TimeSlot.LOCKED),
+                        TimeSlot(1250,"",TimeSlot.LOCKED),
+                        TimeSlot(1450,"",TimeSlot.LOCKED),
+                        TimeSlot(1500,"",TimeSlot.LOCKED),
+                        //Ocupados
+                        TimeSlot(1550,"Evento Demo",TimeSlot.SELECTED),
+                        TimeSlot(1600,"Evento Demo",TimeSlot.SELECTED)
+                    )
+                ),
+                ColumnData<String>(
+                    "Chema","Test"
+                    ,arrayListOf(
+                        //Restricciones
+                        TimeSlot(1900,"",TimeSlot.LOCKED),
+                        TimeSlot(1950,"",TimeSlot.LOCKED),
+                        TimeSlot(2000,"",TimeSlot.LOCKED)
+                    )
+                ),
+                ColumnData<String>(
+                    "Chema","Test"
+                ),ColumnData<String>(
+                    "Miyana","DAta",
+                    arrayListOf(
+                        //Restricciones
+                        TimeSlot(800,"",TimeSlot.LOCKED),
+                        TimeSlot(850,"",TimeSlot.LOCKED),
+                        TimeSlot(900,"",TimeSlot.LOCKED)
+                    )
+                ),ColumnData<String>(
+                    "Tonala","Test"
+                    ,arrayListOf(
+                        //Restricciones
+                        TimeSlot(1200,"",TimeSlot.LOCKED),
+                        TimeSlot(1250,"",TimeSlot.LOCKED),
+                        TimeSlot(1500,"",TimeSlot.LOCKED)
+                    )
+                ),
+                ColumnData<String>(
+                    "Chema","Test"
+                    ,arrayListOf(
+                        //Restricciones
+                        TimeSlot(1900,"",TimeSlot.LOCKED),
+                        TimeSlot(1950,"",TimeSlot.LOCKED),
+                        TimeSlot(2000,"",TimeSlot.LOCKED)
+                    )
+                ),
+                ColumnData<String>(
+                    "Chema","Test"
+                ),ColumnData<String>(
+                    "Miyana","DAta",
+                    arrayListOf(
+                        //Restricciones
+                        TimeSlot(800,"",TimeSlot.LOCKED),
+                        TimeSlot(850,"",TimeSlot.LOCKED),
                         TimeSlot(900,"",TimeSlot.LOCKED)
                     )
                 ),ColumnData<String>(

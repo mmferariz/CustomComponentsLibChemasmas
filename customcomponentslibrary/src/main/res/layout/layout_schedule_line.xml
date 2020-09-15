@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/base_linea"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -14,7 +15,7 @@
             android:text="Test"
             android:textAlignment="gravity" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <!--androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_timeslots"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,6 +24,6 @@
             android:overScrollMode="ifContentScrolls"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
-            tools:listitem="@layout/item_timeslot" />
+            tools:listitem="@layout/item_timeslot" /-->
 
 </LinearLayout>

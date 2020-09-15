@@ -1,17 +1,19 @@
 package com.chemasmas.customcomponentslibrary.adapters
 
 import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.chemasmas.customcomponentslibrary.ColumnData
 import com.chemasmas.customcomponentslibrary.DIPtoPX
 import com.chemasmas.customcomponentslibrary.R
 import com.chemasmas.customcomponentslibrary.TimeSlot
-import com.chemasmas.customcomponentslibrary.ui.DividerItemDecorationNoLast
+import com.jakewharton.rxbinding3.view.clicks
 
 class TimeScheduleLineAdapter<T>(
     val items: ArrayList<ColumnData<T>>,
@@ -20,6 +22,7 @@ class TimeScheduleLineAdapter<T>(
     val finNormal: Int,
     val tick: Int,
     val cellHeigth: Float,
+    val dividerHeight: Float,
     val lambda:SlotPicked<T>,
     val lockedLambda:SlotPicked<T>
 
@@ -33,7 +36,8 @@ class TimeScheduleLineAdapter<T>(
 
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         val titulo:TextView = itemView.findViewById(R.id.titulo)
-        val rvTimeslots:RecyclerView = itemView.findViewById(R.id.rv_timeslots)
+        val baseLinea:LinearLayout = itemView.findViewById(R.id.base_linea)
+        //val rvTimeslots:RecyclerView = itemView.findViewById(R.id.rv_timeslots)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -53,8 +57,11 @@ class TimeScheduleLineAdapter<T>(
         with(holder){
             titulo.height = context?.DIPtoPX(headerHeigth)!!
             titulo.text = item.title
+//            for ( x in iniNormal..(finNormal + tick) step (tick/2) ){
             for ( x in iniNormal..(finNormal + tick/2) step (tick/2) ){
-                val t = TimeSlot(x,centenasToHours(x)!!)
+
+//                val t = TimeSlot(x,centenasToHours(x)!!)
+                val t = TimeSlot(x,"")
                 if( !item.timeSlots.contains(t) ){
 
                     item.timeSlots.add(t)
@@ -62,8 +69,81 @@ class TimeScheduleLineAdapter<T>(
             }
             item.timeSlots.sortBy { slot -> slot.x }
 
-            tsAdapter = TimeSlotsAdapter(item.timeSlots,cellHeigth,lambda,lockedLambda,item)
-            rvTimeslots.adapter = tsAdapter
+            var accum = 1
+            var lastSlot:TimeSlot? = null
+
+
+
+            for ( slot in item.timeSlots ){
+
+                when(lastSlot?.status){
+                    null -> {
+                        lastSlot = slot
+                    }
+                    TimeSlot.UNSELECTED -> {
+                        addSlot(baseLinea,lastSlot,item,1)
+                        lastSlot = slot
+//                        when(slot.status){
+//                            TimeSlot.UNSELECTED -> {
+//                                addSlot(baseLinea,lastSlot,item,1)
+//                                lastSlot = slot
+//                            }
+//                            TimeSlot.SELECTED -> {
+//                                addSlot(baseLinea,lastSlot,item,1)
+//                                lastSlot = slot
+//                            }
+//                            TimeSlot.LOCKED -> {
+//                                addSlot(baseLinea,lastSlot,item,1)
+//                                lastSlot = slot
+//                            }
+//                        }
+                    }
+                    TimeSlot.SELECTED -> {
+                        when(slot.status){
+                            TimeSlot.UNSELECTED -> {
+                                addSlot(baseLinea,lastSlot,item,accum)
+                                accum = 1
+                                lastSlot = slot
+                            }
+                            TimeSlot.SELECTED -> {
+                                accum +=1
+                                lastSlot = slot
+                            }
+                            TimeSlot.LOCKED -> {
+                                addSlot(baseLinea,lastSlot,item,accum)
+                                accum = 1
+                                lastSlot = slot
+                            }
+                        }
+                    }
+                    TimeSlot.LOCKED -> {
+                        when(slot.status){
+                            TimeSlot.UNSELECTED -> {
+                                addSlot(baseLinea,lastSlot,item,accum)
+                                accum = 1
+                                lastSlot = slot
+                            }
+                            TimeSlot.SELECTED -> {
+                                addSlot(baseLinea,lastSlot,item,accum)
+                                accum = 1
+                                lastSlot = slot
+                            }
+                            TimeSlot.LOCKED -> {
+                                 accum +=1
+                                lastSlot = slot
+                            }
+                        }
+                    }
+                }
+            }
+            addSlot(baseLinea,lastSlot!!,item,accum)
+
+
+
+            //tsAdapter = TimeSlotsAdapter(item.timeSlots,cellHeigth,lambda,lockedLambda,item)
+
+
+            //rvTimeslots.adapter = tsAdapter
 
             /*
             val tracker = SelectionTracker.Builder<Long>(
@@ -90,10 +170,36 @@ class TimeScheduleLineAdapter<T>(
                 }
             )
 */
-            rvTimeslots.addItemDecoration(
-                DividerItemDecorationNoLast(context,LinearLayoutManager.VERTICAL)
-            )
+            //rvTimeslots.addItemDecoration(
+            //    DividerItemDecorationNoLast(context,LinearLayoutManager.VERTICAL)
+            //)
         }
+    }
+
+    private fun addSlot(ll: LinearLayout, slot: TimeSlot, item: ColumnData<T>, factor: Int) {
+        ll.addView(TextView(context).apply {
+            text = slot.tag
+            gravity = Gravity.CENTER
+            height = context.DIPtoPX((cellHeigth+dividerHeight) * factor )
+            background = ContextCompat.getDrawable(context,R.drawable.item_calendar_drawable)
+            //Estilos de el status
+            when( slot.status){
+                TimeSlot.UNSELECTED -> {}
+                TimeSlot.SELECTED -> isSelected = true
+                TimeSlot.LOCKED -> isEnabled = false
+                else -> TimeSlot.UNSELECTED
+            }
+
+            //Clicks
+            clicks().subscribe {
+                when( slot.status){
+                    TimeSlot.UNSELECTED -> lambda.selectSlot(slot,item)
+                    TimeSlot.SELECTED -> lockedLambda.selectSlot(slot,item)
+                    TimeSlot.LOCKED -> lockedLambda.selectSlot(slot,item) //Este no deberia de pasar
+                    else -> lockedLambda.selectSlot(slot,item)
+                }
+            }
+        })
     }
 
 
