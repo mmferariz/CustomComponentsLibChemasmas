@@ -92,7 +92,8 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         for ( x in iniNormal..finNormal step tick100){
             timeline.addView( TextView(context).apply {
                 text = centenasToHours(x)
-                height = context.DIPtoPX(cellHeigth+dividerHeight) * 2
+//                height = context.DIPtoPX(cellHeigth+dividerHeight) * 2
+                height = context.DIPtoPX(cellHeigth) * 2
                 background = ContextCompat.getDrawable(context,R.drawable.time_tv_divider)
             } )
         }

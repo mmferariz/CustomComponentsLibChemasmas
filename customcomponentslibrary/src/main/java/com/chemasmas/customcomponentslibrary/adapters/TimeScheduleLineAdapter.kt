@@ -29,7 +29,7 @@ class TimeScheduleLineAdapter<T>(
 ) : RecyclerView.Adapter<TimeScheduleLineAdapter.ViewHolder>() {
 
 
-    private lateinit var tsAdapter: TimeSlotsAdapter<T>
+//    private lateinit var tsAdapter: TimeSlotsAdapter<T>
     private var context: Context? = null
     //var tracker: SelectionTracker<Long>? = null
     //private val timeSlots:ArrayList<Pair<Int,String?>> = arrayListOf()
@@ -180,7 +180,9 @@ class TimeScheduleLineAdapter<T>(
         ll.addView(TextView(context).apply {
             text = slot.tag
             gravity = Gravity.CENTER
-            height = context.DIPtoPX((cellHeigth+dividerHeight) * factor )
+            //height = context.DIPtoPX((cellHeigth+dividerHeight) * factor )
+            height = context.DIPtoPX((cellHeigth) * factor )
+//            height = context.DIPtoPX((cellHeigth) * factor )
             background = ContextCompat.getDrawable(context,R.drawable.item_calendar_drawable)
             //Estilos de el status
             when( slot.status){
