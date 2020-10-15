@@ -22,15 +22,15 @@ class MainActivity : AppCompatActivity() {
         (customC as CustomTimeSchedule<String>).addTimeLines(
             arrayListOf<ColumnData<String>>(
                 ColumnData<String>(
-                    "Miyana","DAta",
+                    "Miyana 1","DAta",
                     arrayListOf(
                         //Restricciones
-                        TimeSlot(800,"",TimeSlot.LOCKED),
-                        TimeSlot(850,"",TimeSlot.LOCKED),
-                        TimeSlot(900,"",TimeSlot.LOCKED),
-                        TimeSlot(950,"",TimeSlot.LOCKED),
-                        TimeSlot(2000,"",TimeSlot.LOCKED),
-                        TimeSlot(2050,"",TimeSlot.LOCKED),
+                        TimeSlot(800,"AAA",TimeSlot.LOCKED),
+                        TimeSlot(850,"AAA",TimeSlot.LOCKED),
+                        TimeSlot(900,"AAA",TimeSlot.LOCKED),
+                        TimeSlot(950,"AAA",TimeSlot.LOCKED),
+                        TimeSlot(2000,"AAA",TimeSlot.LOCKED),
+                        TimeSlot(2050,"AAA",TimeSlot.LOCKED),
                         //Ocupados
                         TimeSlot(1000,"Evento Demo",TimeSlot.SELECTED),
                         TimeSlot(1050,"Evento Demo",TimeSlot.SELECTED),
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                         TimeSlot(1200,"Evento Demo",TimeSlot.SELECTED)
                     )
                 ),ColumnData<String>(
-                    "Tonala","Test"
+                    "Tonala 2","Test"
                     ,arrayListOf(
                         //Restricciones
                         TimeSlot(1200,"",TimeSlot.LOCKED),
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 ),
                 ColumnData<String>(
-                    "Chema","Test"
+                    "Chema 3","Test"
                     ,arrayListOf(
                         //Restricciones
                         TimeSlot(1900,"",TimeSlot.LOCKED),
@@ -61,7 +61,27 @@ class MainActivity : AppCompatActivity() {
                     )
                 ),
                 ColumnData<String>(
-                    "Chema","Test"
+                    "Chema 4","Test"
+                ),ColumnData<String>(
+                    "Tonala 5","Test"
+                    ,arrayListOf(
+                        //Restricciones
+                        TimeSlot(1200,"",TimeSlot.LOCKED),
+                        TimeSlot(1250,"",TimeSlot.LOCKED),
+                        TimeSlot(1500,"",TimeSlot.LOCKED)
+                    )
+                ),
+                ColumnData<String>(
+                    "Chema 6","Test"
+                    ,arrayListOf(
+                        //Restricciones
+                        TimeSlot(1900,"",TimeSlot.LOCKED),
+                        TimeSlot(1950,"",TimeSlot.LOCKED),
+                        TimeSlot(2000,"",TimeSlot.LOCKED)
+                    )
+                ),
+                ColumnData<String>(
+                    "Chema 7","Test"
                 ),ColumnData<String>(
                     "Miyana","DAta",
                     arrayListOf(
@@ -71,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                         TimeSlot(900,"",TimeSlot.LOCKED)
                     )
                 ),ColumnData<String>(
-                    "Tonala","Test"
+                    "Tonala 8","Test"
                     ,arrayListOf(
                         //Restricciones
                         TimeSlot(1200,"",TimeSlot.LOCKED),
@@ -80,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 ),
                 ColumnData<String>(
-                    "Chema","Test"
+                    "Chema 9","Test"
                     ,arrayListOf(
                         //Restricciones
                         TimeSlot(1900,"",TimeSlot.LOCKED),
@@ -89,35 +109,37 @@ class MainActivity : AppCompatActivity() {
                     )
                 ),
                 ColumnData<String>(
-                    "Chema","Test"
-                ),ColumnData<String>(
-                    "Miyana","DAta",
-                    arrayListOf(
-                        //Restricciones
-                        TimeSlot(800,"",TimeSlot.LOCKED),
-                        TimeSlot(850,"",TimeSlot.LOCKED),
-                        TimeSlot(900,"",TimeSlot.LOCKED)
-                    )
-                ),ColumnData<String>(
-                    "Tonala","Test"
-                    ,arrayListOf(
-                        //Restricciones
-                        TimeSlot(1200,"",TimeSlot.LOCKED),
-                        TimeSlot(1250,"",TimeSlot.LOCKED),
-                        TimeSlot(1500,"",TimeSlot.LOCKED)
-                    )
+                    "Chema 10","Test"
                 ),
                 ColumnData<String>(
-                    "Chema","Test"
-                    ,arrayListOf(
-                        //Restricciones
-                        TimeSlot(1900,"",TimeSlot.LOCKED),
-                        TimeSlot(1950,"",TimeSlot.LOCKED),
-                        TimeSlot(2000,"",TimeSlot.LOCKED)
-                    )
+                    "Chema 11","Test"
                 ),
                 ColumnData<String>(
-                    "Chema","Test"
+                    "Chema 12","Test"
+                ),
+                ColumnData<String>(
+                    "Chema 13","Test"
+                ),
+                ColumnData<String>(
+                    "Chema 14","Test"
+                ),
+                ColumnData<String>(
+                    "Chema 15","Test"
+                ),
+                ColumnData<String>(
+                    "Chema 16","Test"
+                ),
+                ColumnData<String>(
+                    "Chema 17","Test"
+                ),
+                ColumnData<String>(
+                    "Chema 18","Test"
+                ),
+                ColumnData<String>(
+                    "Chema 19","Test"
+                ),
+                ColumnData<String>(
+                    "Chema 20","Test"
                 )
             )
         , SlotPicked{ item, line ->

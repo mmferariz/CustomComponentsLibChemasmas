@@ -1,5 +1,5 @@
 package com.chemasmas.customcomponentslibrary.adapters
-
+/*
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -140,39 +140,6 @@ class TimeScheduleLineAdapter<T>(
 
 
 
-            //tsAdapter = TimeSlotsAdapter(item.timeSlots,cellHeigth,lambda,lockedLambda,item)
-
-
-            //rvTimeslots.adapter = tsAdapter
-
-            /*
-            val tracker = SelectionTracker.Builder<Long>(
-                "seleccion",
-                rvTimeslots,
-                MyItemKeyProvider(rvTimeslots),
-                MyItemDetailsLookup(rvTimeslots),
-                StorageStrategy.createLongStorage()
-            ).withSelectionPredicate(
-                SelectionPredicates.createSelectAnything()
-            )
-            .build()
-
-            tsAdapter.tracker = tracker
-             */
-
-            /*
-            tracker?.addObserver(
-                object : SelectionTracker.SelectionObserver<Long>() {
-                    override fun onSelectionChanged() {
-                        super.onSelectionChanged()
-                        val items = tracker?.selection!!.size()
-                    }
-                }
-            )
-*/
-            //rvTimeslots.addItemDecoration(
-            //    DividerItemDecorationNoLast(context,LinearLayoutManager.VERTICAL)
-            //)
         }
     }
 
@@ -218,7 +185,7 @@ class TimeScheduleLineAdapter<T>(
     }
 
 }
-
+*/
 
 /*
 class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
