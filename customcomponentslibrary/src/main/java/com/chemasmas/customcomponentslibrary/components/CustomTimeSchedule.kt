@@ -95,6 +95,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
 
         //items_schedule.adapter = TimeScheduleLineAdapter(items,headerHeigth,iniNormal,finNormal,tick100,cellHeigth,dividerHeight,lambda,lockedLambda)
 
+        raiz.removeAllViews()
         for ( columnData in items ){
             val columna =  inflate(
                 context,
@@ -179,6 +180,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                 }
             }
             addSlot(baseLinea,lastSlot!!,columnData,accum,lambda,lockedLambda)
+
 
 
             raiz.addView(
