@@ -1,4 +1,4 @@
-package com.chemasmas.customcomponentslibrary.components
+    package com.chemasmas.customcomponentslibrary.components
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -13,6 +13,10 @@ import com.chemasmas.customcomponentslibrary.DIPtoPX
 import com.chemasmas.customcomponentslibrary.R
 import com.chemasmas.customcomponentslibrary.TimeSlot
 import com.chemasmas.customcomponentslibrary.adapters.SlotPicked
+import com.chemasmas.customcomponentslibrary.util.GenerateHeader
+import com.chemasmas.customcomponentslibrary.util.GenerateTimeLine
+import com.chemasmas.customcomponentslibrary.util.GenerateTimeSlot
+import com.chemasmas.customcomponentslibrary.util.GenerateTimelineTile
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.layout_schedule_range.view.*
 import kotlin.math.max
@@ -33,6 +37,9 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         iniciar(context, attrs)
     }
 
+
+
+    private var timeSlot: GenerateTimeSlot<T>? = null
     private var selectedColor: ColorStateList? = null
     private var lockedColor: ColorStateList? = null
     private var headerColor: ColorStateList? = null
@@ -49,6 +56,10 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
     //private var items:ArrayList<ColumnData<T>> = arrayListOf()
 
     //Componentes
+    private var headerSAM: GenerateHeader? = null
+    private var timelineTile: GenerateTimelineTile? = null
+    private var headerColumn: GenerateHeader? = null
+
 
     private fun iniciar(context: Context, attrs: AttributeSet?){
 
@@ -72,46 +83,41 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
 
         initTimeline()
 
-//        items_schedule.addItemDecoration(
-//            DividerItemDecorationNoLast(context, LinearLayoutManager.HORIZONTAL)
-//        )
-
-
-
         typedArray.recycle()
     }
 
 
     fun addTimeLines(items:ArrayList<ColumnData<T>>,lambda:SlotPicked<T>,lockedLambda:SlotPicked<T>){
-        initTimeItem(items,lambda,lockedLambda)
-    }
-
-    private fun initTimeItem(
-        items: ArrayList<ColumnData<T>>,
-        lambda: SlotPicked<T>,
-        lockedLambda: SlotPicked<T>
-    ) {
+//        initTimeItem(items,lambda,lockedLambda)
         //TODO get datos del arreglo
 
         //items_schedule.adapter = TimeScheduleLineAdapter(items,headerHeigth,iniNormal,finNormal,tick100,cellHeigth,dividerHeight,lambda,lockedLambda)
 
         raiz.removeAllViews()
+
+
+
         for ( columnData in items ){
-            val columna =  inflate(
+            val columna:LinearLayout = inflate(
                 context,
                 R.layout.layout_schedule_line,
                 null
-            )
+            ) as LinearLayout
 
-            columna.findViewById<TextView>(R.id.titulo).apply {
-                text = columnData.title
-                height = context?.DIPtoPX(headerHeigth)!!
-                //setBackgroundColor(headerColor)
-                headerColor?.let {
-                    setTextColor(headerColor)
-                }
 
-            }
+//            headerSAM?.build(context,
+//                columna.findViewById<TextView>(R.id.titulo),headerHeigth)
+
+            headerColumn?.build(context,columna,headerHeigth,columnData.title)
+//            columna.findViewById<TextView>(R.id.titulo).apply {
+//                text = columnData.title
+//                height = context?.DIPtoPX(headerHeigth)!!
+//                //setBackgroundColor(headerColor)
+//                headerColor?.let {
+//                    setTextColor(headerColor)
+//                }
+//
+//            }
 
             val baseLinea = columna.findViewById<LinearLayout>(R.id.base_linea)
 
@@ -138,22 +144,36 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                         lastSlot = slot
                     }
                     TimeSlot.UNSELECTED -> {
-                        addSlot(baseLinea,lastSlot,columnData,1,lambda,lockedLambda)
+//                        addSlot(baseLinea,lastSlot,columnData,1,lambda,lockedLambda)
+                        timeSlot?.build(baseLinea,lastSlot,columnData,1,lambda,lockedLambda)
                         lastSlot = slot
                     }
+
+
                     TimeSlot.SELECTED -> {
                         when(slot.status){
                             TimeSlot.UNSELECTED -> {
-                                addSlot(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
+//                                addSlot(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
+                                timeSlot?.build(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
                                 accum = 1
                                 lastSlot = slot
                             }
                             TimeSlot.SELECTED -> {
-                                accum +=1
-                                lastSlot = slot
+                                //Verificar Igualdad
+                                if(slot.tag == lastSlot.tag){
+                                    accum +=1
+                                    lastSlot = slot
+                                }else{
+                                    timeSlot?.build(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
+                                    accum = 1
+                                    lastSlot = slot
+                                }
+//                                accum +=1
+//                                lastSlot = slot
                             }
                             TimeSlot.LOCKED -> {
-                                addSlot(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
+//                                addSlot(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
+                                timeSlot?.build(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
                                 accum = 1
                                 lastSlot = slot
                             }
@@ -162,25 +182,33 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                     TimeSlot.LOCKED -> {
                         when(slot.status){
                             TimeSlot.UNSELECTED -> {
-                                addSlot(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
+//                                addSlot(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
+                                timeSlot?.build(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
                                 accum = 1
                                 lastSlot = slot
                             }
                             TimeSlot.SELECTED -> {
-                                addSlot(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
+//                                addSlot(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
+                                timeSlot?.build(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
                                 accum = 1
                                 lastSlot = slot
                             }
                             TimeSlot.LOCKED -> {
-                                accum +=1
-                                lastSlot = slot
+                                if(slot.tag == lastSlot.tag){
+                                    accum +=1
+                                    lastSlot = slot
+                                }else{
+                                    timeSlot?.build(baseLinea,lastSlot,columnData,accum,lambda,lockedLambda)
+                                    accum = 1
+                                    lastSlot = slot
+                                }
                             }
                         }
                     }
                 }
             }
-            addSlot(baseLinea,lastSlot!!,columnData,accum,lambda,lockedLambda)
-
+//            addSlot(baseLinea,lastSlot!!,columnData,accum,lambda,lockedLambda)
+            timeSlot?.build(baseLinea,lastSlot!!,columnData,accum,lambda,lockedLambda)
 
 
             raiz.addView(
@@ -189,78 +217,135 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
 
 
         }
-
     }
 
-    private fun addSlot(
-        ll: LinearLayout,
-        slot: TimeSlot,
-        item: ColumnData<T>,
-        factor: Int,
-        lambda: SlotPicked<T>,
-        lockedLambda: SlotPicked<T>
-    ) {
-        ll.addView(TextView(context).apply {
-            text = slot.tag
-            gravity = Gravity.CENTER
-            //height = context.DIPtoPX((cellHeigth+dividerHeight) * factor )
-            height = context.DIPtoPX((cellHeigth) * factor )
+//    private fun addSlot(
+//        ll: LinearLayout,
+//        slot: TimeSlot,
+//        item: ColumnData<T>,
+//        factor: Int,
+//        lambda: SlotPicked<T>,
+//        lockedLambda: SlotPicked<T>
+//    ) {
+//        ll.addView(
+//            TextView(context).apply {
+//            text = slot.tag
+//            gravity = Gravity.CENTER
+//            //height = context.DIPtoPX((cellHeigth+dividerHeight) * factor )
 //            height = context.DIPtoPX((cellHeigth) * factor )
-            background = ContextCompat.getDrawable(context,R.drawable.item_calendar_drawable)
-            //Estilos de el status
-            when( slot.status){
-                TimeSlot.UNSELECTED -> {}
-                TimeSlot.SELECTED -> isSelected = true
-                TimeSlot.LOCKED -> isEnabled = false
-                else -> TimeSlot.UNSELECTED
-            }
-
-            when( slot.status){
-                TimeSlot.UNSELECTED -> {}
-                TimeSlot.SELECTED -> selectedColor?.let{ setTextColor( selectedColor )}
-                TimeSlot.LOCKED -> lockedColor?.let{ setTextColor( lockedColor )}
-                else -> TimeSlot.UNSELECTED
-            }
-
-            //Clicks
-            clicks().subscribe {
-                when( slot.status){
-                    TimeSlot.UNSELECTED -> lambda.selectSlot(slot,item)
-                    TimeSlot.SELECTED -> lockedLambda.selectSlot(slot,item)
-                    TimeSlot.LOCKED -> lockedLambda.selectSlot(slot,item) //Este no deberia de pasar
-                    else -> lockedLambda.selectSlot(slot,item)
-                }
-            }
-        })
-    }
+////            height = context.DIPtoPX((cellHeigth) * factor )
+//            background = ContextCompat.getDrawable(context,R.drawable.item_calendar_drawable)
+//            //Estilos de el status
+//            when( slot.status){
+//                TimeSlot.UNSELECTED -> {}
+//                TimeSlot.SELECTED -> isSelected = true
+//                TimeSlot.LOCKED -> isEnabled = false
+//                else -> TimeSlot.UNSELECTED
+//            }
+//
+//            when( slot.status){
+//                TimeSlot.UNSELECTED -> {}
+//                TimeSlot.SELECTED -> selectedColor?.let{ setTextColor( selectedColor )}
+//                TimeSlot.LOCKED -> lockedColor?.let{ setTextColor( lockedColor )}
+//                else -> TimeSlot.UNSELECTED
+//            }
+//
+//            //Clicks
+//            clicks().subscribe {
+//                when( slot.status){
+//                    TimeSlot.UNSELECTED -> lambda.selectSlot(slot,item)
+//                    TimeSlot.SELECTED -> lockedLambda.selectSlot(slot,item)
+//                    TimeSlot.LOCKED -> lockedLambda.selectSlot(slot,item) //Este no deberia de pasar
+//                    else -> lockedLambda.selectSlot(slot,item)
+//                }
+//            }
+//        })
+//    }
 
     private fun initTimeline(
     ) {
 
-        timeline.addView( TextView(context).apply {
-            height = context.DIPtoPX(headerHeigth)
+        initComponents()
+        GenerateTimeLine { ll ->
+            headerSAM?.build(context,ll,headerHeigth,null)
+            for ( x in iniNormal..finNormal step tick100){
+                timelineTile?.build(context,ll,x,cellHeigth)
+            }
+        }.build(timeline)
+    }
 
-        } )
-
-        for ( x in iniNormal..finNormal step tick100){
-            timeline.addView( TextView(context).apply {
+    private fun initComponents() {
+        //HEADER
+        headerSAM = GenerateHeader { ctx, layout, heigth,_ ->
+            layout.addView( TextView(ctx).apply {
+                height = context.DIPtoPX(heigth)
+            } )
+        }
+        //TIMELINETILE
+        timelineTile = GenerateTimelineTile { ctx, ll, value, heigth ->
+            ll.addView( TextView(ctx).apply {
                 //l t r b
                 setPadding(
-                    context.DIPtoPX(16f),
-                    context.DIPtoPX(0f),
-                    context.DIPtoPX(16f),
-                    context.DIPtoPX(0f)
+                    ctx.DIPtoPX(16f),
+                    ctx.DIPtoPX(0f),
+                    ctx.DIPtoPX(16f),
+                    ctx.DIPtoPX(0f)
                 )
-
-
-                text = centenasToHours(x)
+                text = centenasToHours(value)
 //                height = context.DIPtoPX(cellHeigth+dividerHeight) * 2
-                height = context.DIPtoPX(cellHeigth) * 2
+                height = ctx.DIPtoPX(heigth) * 2
                 background = ContextCompat.getDrawable(context,R.drawable.time_tv_divider)
             } )
         }
 
+        //TIMESOLOT
+        timeSlot = GenerateTimeSlot { layout, slot, item, factor, lambda, lockedLambda ->
+            layout.addView(
+                TextView(context).apply {
+                    text = slot.tag
+                    gravity = Gravity.CENTER
+                    //height = context.DIPtoPX((cellHeigth+dividerHeight) * factor )
+                    height = context.DIPtoPX((cellHeigth) * factor )
+//            height = context.DIPtoPX((cellHeigth) * factor )
+                    background = ContextCompat.getDrawable(context,R.drawable.item_calendar_drawable)
+                    //Estilos de el status
+                    when( slot.status){
+                        TimeSlot.UNSELECTED -> {}
+                        TimeSlot.SELECTED -> isSelected = true
+                        TimeSlot.LOCKED -> isEnabled = false
+                        else -> TimeSlot.UNSELECTED
+                    }
 
+                    when( slot.status){
+                        TimeSlot.UNSELECTED -> {}
+                        TimeSlot.SELECTED -> selectedColor?.let{ setTextColor( selectedColor )}
+                        TimeSlot.LOCKED -> lockedColor?.let{ setTextColor( lockedColor )}
+                        else -> TimeSlot.UNSELECTED
+                    }
+
+                    //Clicks
+                    clicks().subscribe {
+                        when( slot.status){
+                            TimeSlot.UNSELECTED -> lambda.selectSlot(slot,item)
+                            TimeSlot.SELECTED -> lockedLambda.selectSlot(slot,item)
+                            TimeSlot.LOCKED -> lockedLambda.selectSlot(slot,item) //Este no deberia de pasar
+                            else -> lockedLambda.selectSlot(slot,item)
+                        }
+                    }
+                })
+        }
+        //Column Header
+        headerColumn = GenerateHeader { ctx, layout, heigth,title ->
+            layout.findViewById<TextView>(R.id.titulo).apply {
+                text = title
+                height = ctx.DIPtoPX(heigth)
+                //setBackgroundColor(headerColor)
+                headerColor?.let {
+                    setTextColor(headerColor)
+                }
+
+            }
+        }
     }
 
     private fun normalTime(inicioFix: Int, tick100: Int): Int {

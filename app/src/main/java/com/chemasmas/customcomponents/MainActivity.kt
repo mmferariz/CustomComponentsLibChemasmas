@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Util.health()
+
         (customC as CustomTimeSchedule<String>).addTimeLines(
             arrayListOf<ColumnData<String>>(
                 ColumnData<String>(
@@ -28,15 +29,15 @@ class MainActivity : AppCompatActivity() {
                         TimeSlot(800,"AAA",TimeSlot.LOCKED),
                         TimeSlot(850,"AAA",TimeSlot.LOCKED),
                         TimeSlot(900,"AAA",TimeSlot.LOCKED),
-                        TimeSlot(950,"AAA",TimeSlot.LOCKED),
-                        TimeSlot(2000,"AAA",TimeSlot.LOCKED),
-                        TimeSlot(2050,"AAA",TimeSlot.LOCKED),
+                        TimeSlot(950,"AAA2",TimeSlot.LOCKED),
+                        TimeSlot(2000,"AAA2",TimeSlot.LOCKED),
+                        TimeSlot(2050,"AAA2",TimeSlot.LOCKED),
                         //Ocupados
                         TimeSlot(1000,"Evento Demo",TimeSlot.SELECTED),
                         TimeSlot(1050,"Evento Demo",TimeSlot.SELECTED),
-                        TimeSlot(1100,"Evento Demo",TimeSlot.SELECTED),
-                        TimeSlot(1150,"Evento Demo",TimeSlot.SELECTED),
-                        TimeSlot(1200,"Evento Demo",TimeSlot.SELECTED)
+                        TimeSlot(1100,"Evento Demo 2",TimeSlot.SELECTED),
+                        TimeSlot(1150,"Evento Demo 2",TimeSlot.SELECTED),
+                        TimeSlot(1200,"Evento Demo 3",TimeSlot.SELECTED)
                     )
                 ),ColumnData<String>(
                     "Tonala 2","Test"
