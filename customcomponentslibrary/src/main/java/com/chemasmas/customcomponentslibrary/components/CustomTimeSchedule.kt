@@ -43,6 +43,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
     private var selectedColor: ColorStateList? = null
     private var lockedColor: ColorStateList? = null
     private var headerColor: ColorStateList? = null
+    private var gridColor: ColorStateList? = null
 
     //    private var selectedColor: Int = Color.WHITE
 //    private var lockedColor: Int = Color.WHITE
@@ -74,6 +75,8 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         headerColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontHeaderColor)
         lockedColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontLockedColor)
         selectedColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontSelectedColor)
+
+        gridColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_gridColor)
 
         val inicioFix = fixInicio(inicio,fin)
         val finFix = fixFin(inicio,fin)
@@ -294,44 +297,59 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                 text = centenasToHours(value)
 //                height = context.DIPtoPX(cellHeigth+dividerHeight) * 2
                 height = ctx.DIPtoPX(heigth) * 2
-                background = ContextCompat.getDrawable(context,R.drawable.time_tv_divider)
+                val drawable = ContextCompat.getDrawable(context,R.drawable.time_tv_divider)
+                drawable?.setTintList( gridColor )
+                background = drawable
             } )
         }
 
         //TIMESOLOT
         timeSlot = GenerateTimeSlot { layout, slot, item, factor, lambda, lockedLambda ->
             layout.addView(
-                TextView(context).apply {
-                    text = slot.tag
-                    gravity = Gravity.CENTER
-                    //height = context.DIPtoPX((cellHeigth+dividerHeight) * factor )
-                    height = context.DIPtoPX((cellHeigth) * factor )
+                LinearLayout(context).apply {
+                    orientation = LinearLayout.VERTICAL
+                    val drawable = ContextCompat.getDrawable(context,R.drawable.time_tv_divider)
+                    drawable?.setTintList( gridColor )
+                    background = drawable
+                    this.dividerDrawable = drawable
+
+                    addView(
+                        TextView(context).apply {
+                            text = slot.tag
+                            gravity = Gravity.CENTER
+                            //height = context.DIPtoPX((cellHeigth+dividerHeight) * factor )
+                            height = context.DIPtoPX((cellHeigth) * factor )
+
 //            height = context.DIPtoPX((cellHeigth) * factor )
-                    background = ContextCompat.getDrawable(context,R.drawable.item_calendar_drawable)
-                    //Estilos de el status
-                    when( slot.status){
-                        TimeSlot.UNSELECTED -> {}
-                        TimeSlot.SELECTED -> isSelected = true
-                        TimeSlot.LOCKED -> isEnabled = false
-                        else -> TimeSlot.UNSELECTED
-                    }
+                            val drawable = ContextCompat.getDrawable(context,R.drawable.item_calendar_drawable)
+//                    drawable?.setTintList(gridColor)
+                            background =  drawable
+                            //Estilos de el status
+                            when( slot.status){
+                                TimeSlot.UNSELECTED -> {}
+                                TimeSlot.SELECTED -> isSelected = true
+                                TimeSlot.LOCKED -> isEnabled = false
+                                else -> TimeSlot.UNSELECTED
+                            }
 
-                    when( slot.status){
-                        TimeSlot.UNSELECTED -> {}
-                        TimeSlot.SELECTED -> selectedColor?.let{ setTextColor( selectedColor )}
-                        TimeSlot.LOCKED -> lockedColor?.let{ setTextColor( lockedColor )}
-                        else -> TimeSlot.UNSELECTED
-                    }
+                            when( slot.status){
+                                TimeSlot.UNSELECTED -> {}
+                                TimeSlot.SELECTED -> selectedColor?.let{ setTextColor( selectedColor )}
+                                TimeSlot.LOCKED -> lockedColor?.let{ setTextColor( lockedColor )}
+                                else -> TimeSlot.UNSELECTED
+                            }
 
-                    //Clicks
-                    clicks().subscribe {
-                        when( slot.status){
-                            TimeSlot.UNSELECTED -> lambda.selectSlot(slot,item)
-                            TimeSlot.SELECTED -> lockedLambda.selectSlot(slot,item)
-                            TimeSlot.LOCKED -> lockedLambda.selectSlot(slot,item) //Este no deberia de pasar
-                            else -> lockedLambda.selectSlot(slot,item)
+                            //Clicks
+                            clicks().subscribe {
+                                when( slot.status){
+                                    TimeSlot.UNSELECTED -> lambda.selectSlot(slot,item)
+                                    TimeSlot.SELECTED -> lockedLambda.selectSlot(slot,item)
+                                    TimeSlot.LOCKED -> lockedLambda.selectSlot(slot,item) //Este no deberia de pasar
+                                    else -> lockedLambda.selectSlot(slot,item)
+                                }
+                            }
                         }
-                    }
+                    )
                 })
         }
         //Column Header

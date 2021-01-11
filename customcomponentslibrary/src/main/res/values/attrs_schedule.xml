@@ -14,6 +14,7 @@
         <attr name="fontHeaderColor" format="color|reference" />
         <attr name="fontLockedColor" format="color" />
         <attr name="fontSelectedColor" format="color" />
+        <attr name="gridColor" format="color|reference"  />
     </declare-styleable>
 
 

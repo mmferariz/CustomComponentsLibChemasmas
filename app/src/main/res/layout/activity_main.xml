@@ -21,6 +21,7 @@
             app:fontHeaderColor="@android:color/holo_red_dark"
             app:fontLockedColor="@android:color/holo_orange_dark"
             app:fontSelectedColor="@android:color/white"
+            app:gridColor="@android:color/holo_red_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
