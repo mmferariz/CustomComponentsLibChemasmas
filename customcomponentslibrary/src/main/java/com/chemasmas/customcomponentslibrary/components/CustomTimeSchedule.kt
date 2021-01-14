@@ -54,6 +54,8 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
     private var finNormal: Int = 0
     private var cellHeigth: Float = 0f
     private var tick100: Int = 0
+
+    private var showSlotTitle:Boolean = false
     //private var items:ArrayList<ColumnData<T>> = arrayListOf()
 
     //Componentes
@@ -77,6 +79,8 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         selectedColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontSelectedColor)
 
         gridColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_gridColor)
+
+        showSlotTitle = typedArray.getBoolean(R.styleable.CustomTimeSchedule_showSlotTitle,true)
 
         val inicioFix = fixInicio(inicio,fin)
         val finFix = fixFin(inicio,fin)
@@ -294,6 +298,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                     ctx.DIPtoPX(16f),
                     ctx.DIPtoPX(0f)
                 )
+
                 text = centenasToHours(value)
 //                height = context.DIPtoPX(cellHeigth+dividerHeight) * 2
                 height = ctx.DIPtoPX(heigth) * 2
@@ -315,7 +320,10 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
 
                     addView(
                         TextView(context).apply {
-                            text = slot.tag
+                            if(showSlotTitle){
+                                text = slot.tag
+                            }
+
                             gravity = Gravity.CENTER
                             //height = context.DIPtoPX((cellHeigth+dividerHeight) * factor )
                             height = context.DIPtoPX((cellHeigth) * factor )
