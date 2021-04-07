@@ -12,8 +12,11 @@
         <attr name="cellWidth" format="dimension|reference" />
 
         <attr name="fontHeaderColor" format="color|reference" />
-        <attr name="fontLockedColor" format="color" />
-        <attr name="fontSelectedColor" format="color" />
+        <attr name="fontLockedColor" format="color|reference" />
+        <attr name="fontSelectedColor" format="color|reference" />
+        <attr name="backgroundHeaderColor" format="color|reference" />
+        <attr name="backgroundLockedColor" format="color|reference" />
+        <attr name="backgroundSelectedColor" format="color|reference" />
         <attr name="gridColor" format="color|reference"  />
 
         <attr name="showSlotTitle" format="boolean" />

@@ -45,6 +45,10 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
     private var headerColor: ColorStateList? = null
     private var gridColor: ColorStateList? = null
 
+    private var selectedColorBG: ColorStateList? = null
+    private var lockedColorBG: ColorStateList? = null
+    private var headerColorBG: ColorStateList? = null
+
     //    private var selectedColor: Int = Color.WHITE
 //    private var lockedColor: Int = Color.WHITE
 //    private var headerColor: Int = Color.BLACK
@@ -77,6 +81,10 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         headerColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontHeaderColor)
         lockedColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontLockedColor)
         selectedColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontSelectedColor)
+
+        headerColorBG = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_backgroundHeaderColor)
+        lockedColorBG = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_backgroundLockedColor)
+        selectedColorBG = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_backgroundSelectedColor)
 
         gridColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_gridColor)
 
@@ -347,6 +355,13 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                                 else -> TimeSlot.UNSELECTED
                             }
 
+                            when( slot.status){
+                                TimeSlot.UNSELECTED -> {}
+                                TimeSlot.SELECTED -> selectedColorBG?.let{ setBackgroundColor( it.defaultColor )}
+                                TimeSlot.LOCKED -> lockedColorBG?.let{ setBackgroundColor( it.defaultColor )}
+                                else -> TimeSlot.UNSELECTED
+                            }
+
                             //Clicks
                             clicks().subscribe {
                                 when( slot.status){
@@ -368,6 +383,9 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                 //setBackgroundColor(headerColor)
                 headerColor?.let {
                     setTextColor(headerColor)
+                }
+                headerColorBG?.let {
+                    setBackgroundColor( it.defaultColor )
                 }
 
             }
