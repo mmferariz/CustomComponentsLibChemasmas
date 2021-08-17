@@ -1,3 +1,6 @@
+## TODO migrar a compose
+
+
 <com.chemasmas.customcomponentslibrary.components.CurvedBottomNavigationView
             android:id="@+id/curvedBottomNavigationView2"
             android:layout_width="match_parent"
