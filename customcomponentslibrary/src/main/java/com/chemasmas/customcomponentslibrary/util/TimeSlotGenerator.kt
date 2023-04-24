@@ -15,6 +15,10 @@ fun interface GenerateHeader{
     fun build(context : Context, ll:LinearLayout,headerHeigth:Float,title:String?)
 }
 
+fun interface GenerateItemsHeader {
+    fun build(context : Context, ll:LinearLayout, headerHeigth:Float,title:String?, weight: Int)
+}
+
 fun interface GenerateTimelineTile{
     fun build(context : Context, ll:LinearLayout,value:Int,cellHeigth:Float)
 }

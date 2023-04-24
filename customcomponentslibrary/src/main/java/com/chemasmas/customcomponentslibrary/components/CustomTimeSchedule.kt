@@ -3,20 +3,20 @@
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.TextUtils
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.chemasmas.customcomponentslibrary.ColumnData
-import com.chemasmas.customcomponentslibrary.DIPtoPX
-import com.chemasmas.customcomponentslibrary.R
-import com.chemasmas.customcomponentslibrary.TimeSlot
+import com.chemasmas.customcomponentslibrary.*
 import com.chemasmas.customcomponentslibrary.adapters.SlotPicked
-import com.chemasmas.customcomponentslibrary.util.GenerateHeader
-import com.chemasmas.customcomponentslibrary.util.GenerateTimeLine
-import com.chemasmas.customcomponentslibrary.util.GenerateTimeSlot
-import com.chemasmas.customcomponentslibrary.util.GenerateTimelineTile
+import com.chemasmas.customcomponentslibrary.util.*
 import com.jakewharton.rxbinding3.view.clicks
 import kotlinx.android.synthetic.main.layout_schedule_range.view.*
 import kotlin.math.max
@@ -43,11 +43,13 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
     private var selectedColor: ColorStateList? = null
     private var lockedColor: ColorStateList? = null
     private var headerColor: ColorStateList? = null
+    private var headerItemsColor: ColorStateList? = null
     private var gridColor: ColorStateList? = null
 
     private var selectedColorBG: ColorStateList? = null
     private var lockedColorBG: ColorStateList? = null
     private var headerColorBG: ColorStateList? = null
+    private var headerItemsColorBG: ColorStateList? = null
 
     //    private var selectedColor: Int = Color.WHITE
 //    private var lockedColor: Int = Color.WHITE
@@ -63,6 +65,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
     //private var items:ArrayList<ColumnData<T>> = arrayListOf()
 
     //Componentes
+    private var headerItems: GenerateItemsHeader? = null
     private var headerSAM: GenerateHeader? = null
     private var timelineTile: GenerateTimelineTile? = null
     private var headerColumn: GenerateHeader? = null
@@ -79,10 +82,12 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         dividerHeight = typedArray.getDimension(R.styleable.CustomTimeSchedule_dividerHeight,1f)
 
         headerColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontHeaderColor)
+        headerItemsColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontHeaderItemsColor)
         lockedColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontLockedColor)
         selectedColor = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_fontSelectedColor)
 
         headerColorBG = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_backgroundHeaderColor)
+        headerItemsColorBG = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_backgroundHeaderItemsColor)
         lockedColorBG = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_backgroundLockedColor)
         selectedColorBG = typedArray.getColorStateList(R.styleable.CustomTimeSchedule_backgroundSelectedColor)
 
@@ -102,15 +107,21 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
     }
 
 
-    fun addTimeLines(items:ArrayList<ColumnData<T>>,lambda:SlotPicked<T>,lockedLambda:SlotPicked<T>){
+    fun addTimeLines(items:ArrayList<ColumnData<T>>, headerItems:ArrayList<HeaderSlot>,lambda:SlotPicked<T>,lockedLambda:SlotPicked<T>){
 //        initTimeItem(items,lambda,lockedLambda)
         //TODO get datos del arreglo
 
         //items_schedule.adapter = TimeScheduleLineAdapter(items,headerHeigth,iniNormal,finNormal,tick100,cellHeigth,dividerHeight,lambda,lockedLambda)
 
         raiz.removeAllViews()
+        grid_body.removeAllViews()
 
-
+        for (h in headerItems) {
+            this.headerItems?.build(context, grid_body, headerHeigth, h.name, h.weight)
+        }
+//        grid_body.addView(
+//            header
+//        )
 
         for ( columnData in items ){
             val columna:LinearLayout = inflate(
@@ -122,7 +133,6 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
 
 //            headerSAM?.build(context,
 //                columna.findViewById<TextView>(R.id.titulo),headerHeigth)
-
             headerColumn?.build(context,columna,headerHeigth,columnData.title)
 //            columna.findViewById<TextView>(R.id.titulo).apply {
 //                text = columnData.title
@@ -138,7 +148,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
 
             //Generador de TimeSlots
             for ( x in iniNormal..(finNormal + tick100/2) step (tick100/2) ){
-                val t = TimeSlot(x,"")
+                val t = TimeSlot(x.toString(), x,"")
                 if( !columnData.timeSlots.contains(t) ){
 
                     columnData.timeSlots.add(t)
@@ -225,13 +235,13 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
 //            addSlot(baseLinea,lastSlot!!,columnData,accum,lambda,lockedLambda)
             timeSlot?.build(baseLinea,lastSlot!!,columnData,accum,lambda,lockedLambda)
 
-
             raiz.addView(
                 columna
             )
 
 
         }
+
     }
 
 //    private fun addSlot(
@@ -283,6 +293,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
         initComponents()
         GenerateTimeLine { ll ->
             headerSAM?.build(context,ll,headerHeigth,null)
+            headerSAM?.build(context,ll,headerHeigth,null)
             for ( x in iniNormal..finNormal step tick100){
                 timelineTile?.build(context,ll,x,cellHeigth)
             }
@@ -290,6 +301,28 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
     }
 
     private fun initComponents() {
+
+        //HEADER ITEMS
+        headerItems = GenerateItemsHeader { ctx, layout, height, title, weight ->
+            layout.apply {
+                addView( TextView(ctx).apply {
+                    text = title
+                    setPadding(
+                        ctx.DIPtoPX(16f),
+                        ctx.DIPtoPX(0f),
+                        ctx.DIPtoPX(16f),
+                        ctx.DIPtoPX(0f)
+                    )
+                    this.height = context.DIPtoPX(height)
+                    width = ctx.DPtoPX(weight.toFloat() * 140F)
+                    val drawable = ContextCompat.getDrawable(context,R.drawable.header_item_tv_divider)
+                    background = drawable
+                    gravity = Gravity.CENTER
+                    headerItemsColor?.let { setTextColor(it.defaultColor) }
+                } )
+            }
+        }
+
         //HEADER
         headerSAM = GenerateHeader { ctx, layout, heigth,_ ->
             layout.addView( TextView(ctx).apply {
@@ -313,6 +346,8 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                 val drawable = ContextCompat.getDrawable(context,R.drawable.time_tv_divider)
                 drawable?.setTintList( gridColor )
                 background = drawable
+                headerItemsColorBG?.let { setBackgroundColor(it.defaultColor) }
+                headerItemsColor?.let { setTextColor(it.defaultColor) }
             } )
         }
 
@@ -329,7 +364,26 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                     addView(
                         TextView(context).apply {
                             if(showSlotTitle){
-                                text = slot.tag
+                                slot.subtitle?.let {
+                                    if(factor > 2) {
+                                        maxLines = 3
+                                        ellipsize = TextUtils.TruncateAt.END
+
+                                        val t = slot.tag + "\n" + it
+                                        val ssb = SpannableStringBuilder(t)
+                                        val span = RelativeSizeSpan(0.8f)
+                                        ssb.setSpan(span, slot.tag.length, t.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                                        text = ssb
+                                    } else {
+                                        isSingleLine = true
+                                        maxLines = 1
+                                        ellipsize = TextUtils.TruncateAt.END
+
+                                        text = slot.tag + " - " + it
+                                    }
+                                } ?: run {
+                                    text = slot.tag
+                                }
                             }
 
                             gravity = Gravity.CENTER
@@ -340,28 +394,35 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                             val drawable = ContextCompat.getDrawable(context,R.drawable.item_calendar_drawable)
 //                    drawable?.setTintList(gridColor)
                             background =  drawable
-                            //Estilos de el status
-                            when( slot.status){
-                                TimeSlot.UNSELECTED -> {}
-                                TimeSlot.SELECTED -> isSelected = true
-                                TimeSlot.LOCKED -> isEnabled = false
-                                else -> TimeSlot.UNSELECTED
-                            }
 
                             when( slot.status){
                                 TimeSlot.UNSELECTED -> {}
-                                TimeSlot.SELECTED -> selectedColor?.let{ setTextColor( selectedColor )}
-                                TimeSlot.LOCKED -> lockedColor?.let{ setTextColor( lockedColor )}
+                                TimeSlot.SELECTED -> {
+                                    isSelected = true
+                                    selectedColor?.let { setTextColor(selectedColor) }
+                                    slot.color?.let { setBackgroundColor(it) } ?: selectedColorBG?.let{ setBackgroundColor( it.defaultColor )}
+                                    slot.border?.let {
+                                        when(it){
+                                            BorderType.RED -> setBackgroundResource(R.drawable.left_border_red)
+                                            BorderType.BLUE -> setBackgroundResource(R.drawable.left_border_blue)
+                                            BorderType.YELLOW -> setBackgroundResource(R.drawable.left_border_yellow)
+                                        }
+                                    }
+                                }
+                                TimeSlot.LOCKED -> {
+                                    slot.color?.let { setBackgroundColor(it) } ?: lockedColorBG?.let{ setBackgroundColor( it.defaultColor )}
+                                    lockedColor?.let { setTextColor(lockedColor) }
+                                    isEnabled = false
+                                    slot.border?.let {
+                                        when(it){
+                                            BorderType.RED -> setBackgroundResource(R.drawable.left_border_red)
+                                            BorderType.BLUE -> setBackgroundResource(R.drawable.left_border_blue)
+                                            BorderType.YELLOW -> setBackgroundResource(R.drawable.left_border_yellow)
+                                        }
+                                    }
+                                }
                                 else -> TimeSlot.UNSELECTED
                             }
-
-                            when( slot.status){
-                                TimeSlot.UNSELECTED -> {}
-                                TimeSlot.SELECTED -> selectedColorBG?.let{ setBackgroundColor( it.defaultColor )}
-                                TimeSlot.LOCKED -> lockedColorBG?.let{ setBackgroundColor( it.defaultColor )}
-                                else -> TimeSlot.UNSELECTED
-                            }
-
                             //Clicks
                             clicks().subscribe {
                                 when( slot.status){

@@ -3,7 +3,7 @@ package com.chemasmas.customcomponentslibrary
 import java.io.Serializable
 import kotlin.random.Random
 
-class TimeSlot(val x:Int,val tag:String, var status: Int = UNSELECTED ):Serializable{
+class TimeSlot(val id: String, val x:Int,val tag:String, var status: Int = UNSELECTED, var subtitle: String? = null, var color: Int? = null, val border: BorderType? = null):Serializable{
 
 
     fun dummyStatus() {
@@ -38,4 +38,12 @@ class TimeSlot(val x:Int,val tag:String, var status: Int = UNSELECTED ):Serializ
 
 
 }
+
+enum class BorderType {
+    RED, BLUE, YELLOW
+}
 class ColumnData<T>(val title:String,val data:T,val timeSlots:ArrayList<TimeSlot> = arrayListOf() ) : Serializable
+
+class HeaderSlot(val weight: Int, val name:String ) : Serializable
+
+//class ColumnHeaderData<T>(val title:String,val data:T,val headerSlots:ArrayList<HeaderSlot> = arrayListOf() ) : Serializable

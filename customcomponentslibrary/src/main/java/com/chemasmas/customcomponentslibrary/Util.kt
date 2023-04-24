@@ -24,6 +24,10 @@ fun Context.DIPtoPX(value:Float): Int {
 return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX,value, resources.displayMetrics ).toInt()
 }
 
+fun Context.DPtoPX(value:Float): Int {
+return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,value, resources.displayMetrics ).toInt()
+}
+
 
 fun Int.toDPF(): Float {
     return this * Resources.getSystem().displayMetrics.density
