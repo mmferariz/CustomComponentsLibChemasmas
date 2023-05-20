@@ -40,7 +40,7 @@ class TimeSlot(val id: String, val x:Int,val tag:String, var status: Int = UNSEL
 }
 
 enum class BorderType {
-    RED, BLUE, YELLOW
+    RED, BLUE, YELLOW, DISABLED
 }
 class ColumnData<T>(val title:String,val data:T,val timeSlots:ArrayList<TimeSlot> = arrayListOf() ) : Serializable
 

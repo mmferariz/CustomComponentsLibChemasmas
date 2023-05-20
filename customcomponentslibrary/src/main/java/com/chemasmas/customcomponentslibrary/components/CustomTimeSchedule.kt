@@ -406,6 +406,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                                             BorderType.RED -> setBackgroundResource(R.drawable.left_border_red)
                                             BorderType.BLUE -> setBackgroundResource(R.drawable.left_border_blue)
                                             BorderType.YELLOW -> setBackgroundResource(R.drawable.left_border_yellow)
+                                            BorderType.DISABLED -> setBackgroundResource(R.drawable.border_disabled)
                                         }
                                     }
                                 }
@@ -418,6 +419,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                                             BorderType.RED -> setBackgroundResource(R.drawable.left_border_red)
                                             BorderType.BLUE -> setBackgroundResource(R.drawable.left_border_blue)
                                             BorderType.YELLOW -> setBackgroundResource(R.drawable.left_border_yellow)
+                                            BorderType.DISABLED -> setBackgroundResource(R.drawable.border_disabled)
                                         }
                                     }
                                 }
