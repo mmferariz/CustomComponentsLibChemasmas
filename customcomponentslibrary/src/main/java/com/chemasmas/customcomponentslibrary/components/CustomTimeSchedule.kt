@@ -185,7 +185,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                             }
                             TimeSlot.SELECTED -> {
                                 //Verificar Igualdad
-                                if(slot.tag == lastSlot.tag){
+                                if(slot.id == lastSlot.id){
                                     accum +=1
                                     lastSlot = slot
                                 }else{
@@ -219,7 +219,7 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
                                 lastSlot = slot
                             }
                             TimeSlot.LOCKED -> {
-                                if(slot.tag == lastSlot.tag){
+                                if(slot.id == lastSlot.id){
                                     accum +=1
                                     lastSlot = slot
                                 }else{
