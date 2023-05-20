@@ -244,6 +244,10 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
 
     }
 
+    fun scrollVerticalTo(y: Int) {
+        scrollview.smoothScrollTo(0, y)
+    }
+
 //    private fun addSlot(
 //        ll: LinearLayout,
 //        slot: TimeSlot,
