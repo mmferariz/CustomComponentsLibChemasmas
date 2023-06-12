@@ -478,9 +478,23 @@ class CustomTimeSchedule<T>  @JvmOverloads constructor(
     }
 
     private fun centenasToHours(num: Int): String {
-        val horas = num / 100
-        val min = inFixTick(num %100)
-        return resources.getString(R.string.hour_format,horas,min)
+        var horas = num / 100
+//        val min = inFixTick(num %100)
+
+        val amPm: String
+        if (horas < 12) {
+            amPm = "AM"
+            if (horas == 0) {
+                horas = 12  // Convertir 0 horas a 12 AM
+            }
+        } else {
+            amPm = "PM"
+            if (horas > 12) {
+                horas -= 12  // Convertir horas mayores a 12 a formato de 12 horas
+            }
+        }
+
+        return "$horas $amPm"
     }
 
     private fun fixFin(inicio: Int, fin: Int): Int {
